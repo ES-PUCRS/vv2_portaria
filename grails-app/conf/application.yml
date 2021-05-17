@@ -36,7 +36,9 @@ spring:
                 - '*.properties'
 management:
     endpoints:
-        enabled-by-default: false
+        enabled: true
+        jmx:
+            enabled: true
 
 ---
 grails:
@@ -92,7 +94,9 @@ grails:
                 staticparts: none
 management:
     endpoints:
+        enabled: true
         jmx:
+            enabled: true
             unique-names: true
 
 ---

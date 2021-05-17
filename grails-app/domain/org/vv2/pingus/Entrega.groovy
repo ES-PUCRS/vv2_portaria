@@ -1,7 +1,5 @@
 package org.vv2.pingus
 
-import java.text.SimpleDateFormat
-
 class Entrega {
 
     Date        dateCreated
@@ -19,11 +17,9 @@ class Entrega {
         dateCreated()
         lastUpdated()
         criado      nullable: true, display: false
-        retirado    nullable: true, display: false, validator: {retirado , obj ->
-            if (retirado && !retirado?.after(obj?.criado)) return ['criado.greater']
-        }
-        descricao    nullable: false
-        apto         nullable: false, min: 0
+        retirado    nullable: true, display: false
+        descricao   nullable: false
+        apto        nullable: false, min: 0
         operador     (nullable: true, validator: {val, obj ->
             if (!obj.operadorNome) return ['operador.required']
         })
@@ -38,7 +34,8 @@ class Entrega {
 
     static List<Entrega> findAllByDateCreatedGreaterThan(Date date) {
         Entrega.all.findAll {
-            it.criado.after date
+            if(it.criado)
+                it.criado.after date
         }
     }
 

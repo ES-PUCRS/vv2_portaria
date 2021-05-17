@@ -9,7 +9,7 @@ class Operador {
     }
 
     static mapping = {
-    version false
+        version false
     }
 
     @Override
