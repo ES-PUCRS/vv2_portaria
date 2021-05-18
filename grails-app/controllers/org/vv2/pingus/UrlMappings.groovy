@@ -10,6 +10,7 @@ class UrlMappings {
         }
 
 //        "/"(view:"/entrega/index")
+//        if()
         "/" ( controller:'Entrega', action:'index' )
         "500"(view:'/error')
         "404"(view:'/notFound')

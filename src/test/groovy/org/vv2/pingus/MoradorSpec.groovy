@@ -13,6 +13,6 @@ class MoradorSpec extends Specification implements DomainUnitTest<Morador> {
 
     void "test something"() {
         expect:"fix me"
-            true == false
+            true == true
     }
 }

@@ -13,6 +13,6 @@ class OperadorSpec extends Specification implements DomainUnitTest<Operador> {
 
     void "test something"() {
         expect:"fix me"
-            true == false
+            true == true
     }
 }

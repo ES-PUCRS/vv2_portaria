@@ -3,7 +3,7 @@ package org.vv2.pingus
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class EntregaSpec extends Specification implements DomainUnitTest<Entrega> {
+class RegistroSpec extends Specification implements DomainUnitTest<Registro> {
 
     def setup() {
     }
@@ -13,6 +13,6 @@ class EntregaSpec extends Specification implements DomainUnitTest<Entrega> {
 
     void "test something"() {
         expect:"fix me"
-            true == true
+            true == false
     }
 }

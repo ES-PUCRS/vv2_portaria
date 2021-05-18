@@ -10,6 +10,9 @@ class OperadorController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
+        println "JSESSIONID: ${request.getHeader("cookie").replace("JSESSIONID=","")}"
+        println "REQUEST: ${request.session?.getMaxInactiveInterval()}"
+
         params.max = Math.min(max ?: 10, 100)
         respond operadorService.list(params), model:[operadorCount: operadorService.count()]
     }

@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         maven { url "https://repo.grails.org/grails/core" }
+        maven { url 'http://dl.bintray.com/agorapulse/libs' }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
@@ -23,6 +24,7 @@ apply plugin:"org.grails.grails-gsp"
 
 repositories {
     maven { url "https://repo.grails.org/grails/core" }
+    maven { url 'http://dl.bintray.com/agorapulse/libs' }
 }
 
 configurations {
@@ -73,7 +75,8 @@ dependencies {
     testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:3.14.0"
     testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:3.14.0"
 
-    compile 'org.grails.plugins:aws-sdk-s3:2.4.8'
+//    compile 'org.grails.plugins:aws-sdk-s3:2.2.12'
+//    compile 'org.grails.plugins:aws-sdk:1.10.74'
 }
 
 bootRun {
@@ -95,8 +98,10 @@ tasks.withType(GroovyCompile) {
 }
 
 webdriverBinaries {
-    chromedriver '2.45.0'
-    geckodriver '0.24.0'
+    chromedriver {
+        version = '2.45.0'
+        architecture = 'X86'
+    }
 }
 
 tasks.withType(Test) {
@@ -110,4 +115,5 @@ tasks.withType(Test) {
 assets {
     minifyJs = true
     minifyCss = true
+
 }

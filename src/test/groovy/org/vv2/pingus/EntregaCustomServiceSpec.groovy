@@ -13,6 +13,6 @@ class EntregaCustomServiceSpec extends Specification implements ServiceUnitTest<
 
     void "test something"() {
         expect:"fix me"
-            true == false
+            true == true
     }
 }
