@@ -8,10 +8,8 @@ class Entrega {
     String      descricao
     Integer     apto
     Operador    operador
-    String      operadorNome
     Date        retirado
     Morador     morador
-
 
     static constraints = {
         dateCreated()
@@ -20,11 +18,8 @@ class Entrega {
         retirado    nullable: true, display: false
         descricao   nullable: false
         apto        nullable: false, min: 0
-        operador     (nullable: true, validator: {val, obj ->
-            if (!obj.operadorNome) return ['operador.required']
-        })
-        operadorNome display: false
-        morador      nullable: true
+        operador    nullable: false
+        morador     nullable: true
     }
 
     static mapping = {

@@ -30,6 +30,7 @@
                     </g:form>
                 </div>
             </ul>
+%{--            <li><g:link resource="entrega" action="logout"><g:message code="Logout" /></g:link></li>--}%
         </div>
         <div id="list-entrega" class="content scaffold-list" role="main">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
@@ -57,18 +58,7 @@
                         </g:else>
                         <td>${item?.descricao}</td>
                         <td>${item?.apto}</td>
-                        <g:if test="${item?.operador}">
-                            <td><g:link resource="operador" action="show" id="${item?.operador.id}">${item?.operador}</g:link></td>
-                        </g:if>
-                        <g:else>
-                            <g:set var="operadorExiste" value="${Operador.findByNome(item?.operadorNome)}" />
-                            <g:if test="${operadorExiste}">
-                                <td><g:link resource="operador" action="show" id="${operadorExiste?.id}">${operadorExiste}</g:link></td>
-                            </g:if>
-                            <g:else>
-                                <td>${item?.operadorNome}</td>
-                            </g:else>
-                        </g:else>
+                        <td><g:link resource="operador" action="show" id="${item?.operador?.id}">${item?.operador}</g:link></td>
                         <g:if test="${item?.morador?.id}">
                             <g:if test="${item?.retirado}">
                                 <td> <g:formatDate date="${item?.retirado}"/> </td>

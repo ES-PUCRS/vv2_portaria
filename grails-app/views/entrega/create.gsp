@@ -11,7 +11,6 @@
         <div class="nav" role="navigation">
             <ul>
                 <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-%{--                <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>--}%
             </ul>
         </div>
         <div id="create-entrega" class="content scaffold-create" role="main">
@@ -25,17 +24,19 @@
                     <li <g:if test="${error in org.springframework.validation.FieldError}">
                             data-field-id="${error.field}"
                     </g:if>>
-
-                        <g:if test="${error.field.contains("operadorNome")}">
-                            <g:message error="${error.getDefaultMessage().replace("{0}","Operador").replace("{1}","Entrega")}."/>
-                        </g:if>
                     </li>
                 </g:eachError>
             </ul>
             </g:hasErrors>
             <g:form resource="${this.entrega}" method="POST">
                 <fieldset class="form">
-                    <f:all bean="entrega" except="morador"/>
+                    <f:all style="text-align: center" bean="entrega" except="['morador', 'operador']"/>
+                    <div class="fieldcontain required">
+                        <label for="operador">
+                            Operador
+                        </label>
+                    <input disabled value="${this?.entrega?.operador}"/>
+                    </div>
                 </fieldset>
                 <fieldset class="buttons">
                     <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />

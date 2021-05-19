@@ -7,6 +7,8 @@ class EntregaController {
 
     EntregaService entregaService
     EntregaCustomService entregaCustomService
+    RegistroCustomService registroCustomService
+    RegistroService registroService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -23,6 +25,9 @@ class EntregaController {
     }
 
     def index(Integer max) {
+        if(request.session?.isNew() || !registroCustomService.searchByCookieActive(request))
+            redirect(controller:"registro", action: "show")
+
         params.max = Math.min(max ?: 10, 100)
         respond entregaService.list(params), model:[entregaCount: entregaService.count()]
     }
@@ -32,7 +37,14 @@ class EntregaController {
     }
 
     def create() {
-        respond new Entrega(params)
+        def entrega = new Entrega(params)
+        def registro = registroCustomService.searchByCookieActive(request)
+
+        if (!registro || request.session?.isNew())
+            redirect controller:"registro", action: "show"
+
+        entrega.operador = registro?.operador
+        respond entrega
     }
 
     def save(Entrega entrega) {
@@ -44,7 +56,6 @@ class EntregaController {
         try {
             if(!entrega.criado)
                 entrega.criado = entrega.dateCreated
-            entrega.operadorNome = entrega.operador?.nome
             entrega.lastUpdated = null;
             entregaService.save(entrega)
         } catch (ValidationException e) {
@@ -73,7 +84,6 @@ class EntregaController {
 
         if(entrega.morador?.id)
             entrega.operador = null
-
 
         try {
             entrega.retirado = entrega.lastUpdated
@@ -107,6 +117,19 @@ class EntregaController {
             }
             '*'{ render status: NO_CONTENT }
         }
+    }
+
+    def logout() {
+        def registro = registroCustomService.searchByCookieActive(request)
+
+        try {
+            registro.jSessionId = "${registro.jSessionId}{LOGOUT}"
+            registroService.save(registro)
+        } catch (ValidationException e) {
+            respond registro.errors, view:'index'
+            return
+        }
+        redirect controller: "registro", action: "show"
     }
 
     protected void notFound() {

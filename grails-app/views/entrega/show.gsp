@@ -41,12 +41,7 @@
                         </g:else>
                         <td>${item?.descricao}</td>
                         <td>${item?.apto}</td>
-                        <g:if test="${item?.operador}">
-                            <td><g:link resource="operador" action="show" id="${item?.operador.id}">${item?.operador}</g:link></td>
-                        </g:if>
-                        <g:else>
-                            <td>${item?.operadorNome}</td>
-                        </g:else>
+                        <td><g:link resource="operador" action="show" id="${item?.operador?.id}">${item?.operador}</g:link></td>
                         <g:if test="${item?.morador?.id}">
                             <g:if test="${item?.retirado}">
                                 <td> <g:formatDate date="${item?.retirado}"/> </td>
