@@ -77,7 +77,7 @@
                 <div class="dashboard-block">
                     <p>Recebidos nos últimos 30 dias:</p>
                         <g:textField disabled="true" name="fieldByTime" class="dashboard-field" value="${Entrega.findAllByDateCreatedGreaterThan(use (TimeCategory) { new Date() - 1.month }).size()}"/>
-                    <p style="margin-left: 20px">Não entregues:</p>
+                    <p style="margin-left: 20px">Não retiradas:</p>
                         <g:textField disabled="true" name="fieldUndelivered" class="dashboard-field" value="${Entrega.findAllWhere(morador: null).size()}"/>
                     <p style="margin-left: 20px">Tempo médio entre registro e retirada:</p>
                     <g:set class="dashboard-average-field" var="dateAverage" value="${Entrega.findDeliveryAverageTime()}" />

@@ -78,7 +78,7 @@ class EntregaController {
     }
 
     def edit(Long id) {
-        respond entregaService.get(id), model: [morador: Morador.findByNome("Giovana Emilly Oliveira")]
+        respond entregaService.get(id)
     }
 
     def update(Entrega entrega) {
@@ -86,9 +86,6 @@ class EntregaController {
             notFound()
             return
         }
-
-        if(entrega.morador?.id)
-            entrega.operador = null
 
         try {
             entrega.retirado = entrega.lastUpdated

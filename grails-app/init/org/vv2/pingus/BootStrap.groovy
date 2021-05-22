@@ -31,15 +31,15 @@ class BootStrap {
             new Morador(nome: "Davi Benicio Jesus",              cpf: "629.079.180-01", rg: "36.291.849-1", apto: 402, inativo: false).save()
             new Morador(nome: "Tereza Rosangela Milena Rezende", cpf: "109.813.770-17", rg: "14.878.159-7", apto: 403, inativo: false).save()
 
-            def sdf = new SimpleDateFormat("dd/MM/yy HH:mm")
-            new Entrega(criado: sdf.parse("14/04/21 11:26"), descricao: "correios cx 10x25x30cm", apto: 101, operador: Operador.findByNome("Rebeca Adriana da Mota")        , retirado: sdf.parse("23/05/21 11:45"), morador: Morador.findByNome("Levi Kaue Jesus")).save(failOnError: true)
-            new Entrega(criado: sdf.parse("14/12/20 11:26"), descricao: "sedex cx 27x25x70cm"   , apto: 103, operador: Operador.findByNome("Jose Otavio da Mata"))          .save(failOnError: true)
-            new Entrega(criado: sdf.parse("20/05/21 11:26"), descricao: "correios carta pequena", apto: 101, operador: Operador.findByNome("Daiane Evelyn Rita da Costa")   , retirado: sdf.parse("26/05/21 08:16"), morador: Morador.findByNome("Levi Kaue Jesus")).save(failOnError: true)
-            new Entrega(criado: sdf.parse("13/04/21 12:13"), descricao: "correios carta grande" , apto: 104, operador: Operador.findByNome("Rebeca Adriana da Mota")        , retirado: sdf.parse("12/05/21 11:32"), morador: Morador.findByNome("Helena Rosa Costa")).save(failOnError: true)
-            new Entrega(criado: sdf.parse("18/05/20 16:30"), descricao: "sequoia cx 16x17x13cm" , apto: 101, operador: Operador.findByNome("Daiane Evelyn Rita da Costa")   , retirado: sdf.parse("07/11/20 13:15"), morador: Morador.findByNome("Levi Kaue Jesus")).save(failOnError: true)
-            new Entrega(criado: sdf.parse("19/11/20 15:19"), descricao: "sedex cx 112x223x494cm", apto: 101, operador: Operador.findByNome("Benicio Danilo Arthur Barbosa")).save(failOnError: true)
-            new Entrega(criado: sdf.parse("14/09/20 11:26"), descricao: "correios carta pequena", apto: 301, operador: Operador.findByNome("Benicio Danilo Arthur Barbosa")).save(failOnError: true)
-            new Entrega(criado: sdf.parse("05/05/21 17:11"), descricao: "sedex cx 100x75x30cm"  , apto: 304, operador: Operador.findByNome("Daiane Evelyn Rita da Costa")   , retirado: sdf.parse("07/05/21 10:26"), morador: Morador.findByNome("Arthur Renan Pietro Melo")).save(failOnError: true)
+            def sdf = new SimpleDateFormat("dd/MM/yy hh:mm")
+            new Entrega(criado: sdf.parse("01/01/21 11:00"), descricao: "correios cx 10x25x30cm", apto: 101, operador: Operador.findByNome("Rebeca Adriana da Mota")        , retirado: sdf.parse("04/01/21 11:00"), morador: Morador.findByNome("Levi Kaue Jesus")).save(failOnError: true)
+            new Entrega(criado: sdf.parse("01/01/21 11:00"), descricao: "sedex cx 27x25x70cm"   , apto: 103, operador: Operador.findByNome("Jose Otavio da Mata"))          .save(failOnError: true)
+            new Entrega(criado: sdf.parse("01/01/21 11:00"), descricao: "correios carta pequena", apto: 101, operador: Operador.findByNome("Daiane Evelyn Rita da Costa")   , retirado: sdf.parse("04/01/21 11:00"), morador: Morador.findByNome("Levi Kaue Jesus")).save(failOnError: true)
+            new Entrega(criado: sdf.parse("01/01/21 11:00"), descricao: "correios carta grande" , apto: 104, operador: Operador.findByNome("Rebeca Adriana da Mota")        , retirado: sdf.parse("04/01/21 11:00"), morador: Morador.findByNome("Helena Rosa Costa")).save(failOnError: true)
+            new Entrega(criado: sdf.parse("01/01/21 11:00"), descricao: "sequoia cx 16x17x13cm" , apto: 101, operador: Operador.findByNome("Daiane Evelyn Rita da Costa")   , retirado: sdf.parse("04/01/21 11:00"), morador: Morador.findByNome("Levi Kaue Jesus")).save(failOnError: true)
+            new Entrega(criado: sdf.parse("01/01/21 11:00"), descricao: "sedex cx 112x223x494cm", apto: 101, operador: Operador.findByNome("Benicio Danilo Arthur Barbosa")).save(failOnError: true)
+            new Entrega(criado: sdf.parse("01/01/21 11:00"), descricao: "correios carta pequena", apto: 301, operador: Operador.findByNome("Benicio Danilo Arthur Barbosa")).save(failOnError: true)
+            new Entrega(criado: sdf.parse("01/01/21 11:00"), descricao: "sedex cx 100x75x30cm"  , apto: 304, operador: Operador.findByNome("Daiane Evelyn Rita da Costa")   , retirado: sdf.parse("04/01/21 11:00"), morador: Morador.findByNome("Arthur Renan Pietro Melo")).save(failOnError: true)
 
       }
     }
