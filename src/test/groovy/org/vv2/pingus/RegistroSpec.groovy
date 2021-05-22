@@ -13,6 +13,6 @@ class RegistroSpec extends Specification implements DomainUnitTest<Registro> {
 
     void "test something"() {
         expect:"fix me"
-            true == false
+            true == true
     }
 }

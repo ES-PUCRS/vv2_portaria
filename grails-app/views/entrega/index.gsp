@@ -30,7 +30,7 @@
                     </g:form>
                 </div>
             </ul>
-%{--            <li><g:link resource="entrega" action="logout"><g:message code="Logout" /></g:link></li>--}%
+            <li><g:link resource="entrega" action="logout"><g:message code="Logout" /></g:link></li>
         </div>
         <div id="list-entrega" class="content scaffold-list" role="main">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
