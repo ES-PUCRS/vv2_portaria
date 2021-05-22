@@ -32,10 +32,8 @@
                 <fieldset class="form">
                     <f:all style="text-align: center" bean="entrega" except="['morador', 'operador']"/>
                     <div class="fieldcontain required">
-                        <label for="operador">
-                            Operador
-                        </label>
-                    <input disabled value="${this?.entrega?.operador}"/>
+                        <label for="operador">Operador</label>
+                    <input type="text" name="operador" disabled value="${this?.entrega?.operador}" id="operador"/>
                     </div>
                 </fieldset>
                 <fieldset class="buttons">

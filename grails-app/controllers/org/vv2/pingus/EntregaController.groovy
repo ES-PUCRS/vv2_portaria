@@ -53,6 +53,11 @@ class EntregaController {
             return
         }
 
+        if(!entrega.operador) {
+            def registro = registroCustomService.searchByCookieActive(request)
+            entrega.operador = registro?.operador
+        }
+
         try {
             if(!entrega.criado)
                 entrega.criado = entrega.dateCreated
