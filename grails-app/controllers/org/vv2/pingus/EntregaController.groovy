@@ -59,8 +59,7 @@ class EntregaController {
         }
 
         try {
-            if(!entrega.criado)
-                entrega.criado = entrega.dateCreated
+            entrega.criado = entrega.dateCreated
             entrega.lastUpdated = null;
             entregaService.save(entrega)
         } catch (ValidationException e) {

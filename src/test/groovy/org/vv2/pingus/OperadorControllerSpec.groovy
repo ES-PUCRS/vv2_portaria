@@ -8,11 +8,8 @@ import spock.lang.*
 class OperadorControllerSpec extends Specification implements ControllerUnitTest<OperadorController>, DomainUnitTest<Operador> {
 
     def populateValidParams(params) {
+        params["nome"] = 'Rebeca Valeska'
         assert params != null
-
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
-        assert true, "TODO: Provide a populateValidParams() implementation for this generated test suite"
     }
 
     void "Test the index action returns the correct model"() {
