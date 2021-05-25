@@ -75,8 +75,7 @@ dependencies {
     testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:3.14.0"
     testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:3.14.0"
 
-//    compile 'org.grails.plugins:aws-sdk-s3:2.2.12'
-//    compile 'org.grails.plugins:aws-sdk:1.10.74'
+    compile "io.micronaut:micronaut-http-client"
 }
 
 bootRun {

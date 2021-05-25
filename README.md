@@ -7,7 +7,7 @@ O sistema deverá iniciar com alguns dados já preenchidos (em bom número e de 
 qualidade), de forma a facilitar os testes.
 Detalhamento
 
-1. [ ] O sistema deverá permitir escolher o operador/usuário atual.
+1. [X] O sistema deverá permitir escolher o operador/usuário atual.
 2. [X] O sistema deverá permitir incluir um novo operador (não é necessário
 implementar edição).
 3. [X] O sistema deverá permitir excluir um operador desde que não existam registros

@@ -3,9 +3,9 @@
 //import spock.lang.AutoCleanup
 //import spock.lang.Shared
 //import spock.lang.Specification
-//import io.micronaut.http.HttpRequest
-//import io.micronaut.http.client.HttpClient
 //import grails.testing.spock.OnceBefore
+//
+//import java.net.http.HttpClient
 //
 //@Integration
 //class HealthSpec extends Specification {
@@ -18,6 +18,7 @@
 //    void init() {
 //        String baseUrl = "http://localhost:$serverPort"
 //        client = HttpClient.create(new URL(baseUrl))
+//        HttpClient.
 //    }
 //
 //    void "health responds OK"()  {
