@@ -1,3 +1,7 @@
+# Verificação e Validação de Software II
+[![Build Status](https://travis-ci.org/ES-PUCRS/vv2_portaria.svg?branch=master)](https://travis-ci.org/ES-PUCRS/vv2_portaria)
+
+## Requisitos
 Deseja-se um sistema para controlar entregas em um condomínio.
 O sistema deverá ser implementado preferencialmente em Web Puro (apenas
 HTML+CSS+Javascript). Se desejarem usar algum framework, certificar-se de que seja
