@@ -8,11 +8,11 @@ import spock.lang.*
 class MoradorControllerSpec extends Specification implements ControllerUnitTest<MoradorController>, DomainUnitTest<Morador> {
 
     def populateValidParams(params) {
-        assert params != null
+        params["descricao"] = "TestSpec"
+        params["operador"]  = 1
+        params["apto"]      = 404
 
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
-        assert true, "TODO: Provide a populateValidParams() implementation for this generated test suite"
+        assert params != null
     }
 
     void "Test the index action returns the correct model"() {

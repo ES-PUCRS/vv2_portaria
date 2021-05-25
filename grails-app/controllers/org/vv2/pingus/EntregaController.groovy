@@ -38,7 +38,7 @@ class EntregaController {
 
     def create() {
         def entrega = new Entrega(params)
-        def registro = registroCustomService.searchByCookieActive(request)
+        def registro = registroCustomService?.searchByCookieActive(request)
 
         if (!registro || request.session?.isNew())
             redirect controller:"registro", action: "show"
@@ -54,7 +54,7 @@ class EntregaController {
         }
 
         if(!entrega.operador) {
-            def registro = registroCustomService.searchByCookieActive(request)
+            def registro = registroCustomService?.searchByCookieActive(request)
             entrega.operador = registro?.operador
         }
 
