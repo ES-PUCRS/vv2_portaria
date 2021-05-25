@@ -16,7 +16,6 @@ group "org.vv2.pingus"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
-//apply plugin:"war"
 apply plugin:"org.grails.grails-web"
 apply plugin:"com.github.erdi.webdriver-binaries"
 apply plugin:"com.bertramlabs.asset-pipeline"
@@ -27,15 +26,7 @@ repositories {
     maven { url 'http://dl.bintray.com/agorapulse/libs' }
 }
 
-configurations {
-    developmentOnly
-    runtimeClasspath {
-        extendsFrom developmentOnly
-    }
-}
-
 dependencies {
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"

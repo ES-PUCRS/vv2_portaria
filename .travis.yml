@@ -1,4 +1,3 @@
-sudo: true
 addons:
   chrome: stable # 
 before_cache:
@@ -8,7 +7,7 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 language: groovy
-install: # 
+install: #
   - true
 jdk:
   - openjdk8
