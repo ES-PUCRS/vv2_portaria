@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 class EntregaCustomService {
 
 
-    List<Entrega> searchBy(String field, String[] params)  {
+    static List<Entrega> searchBy(String field, String[] params)  {
         List<Entrega> list = []
         for(param in params) {
             list += "searchBy${field}"(param)

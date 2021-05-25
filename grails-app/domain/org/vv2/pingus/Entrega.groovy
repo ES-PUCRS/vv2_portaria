@@ -36,12 +36,14 @@ class Entrega {
 
     static Calendar findDeliveryAverageTime() {
         def list = Entrega.all.findAll{
-            it?.morador
+            it?.criado && it?.retirado
         }
 
         Long difference = 0L
         for(entrega in list){
-            difference += entrega?.retirado?.getTime() - entrega?.criado?.getTime()
+            difference +=
+                entrega?.retirado?.getTime()
+            -   entrega?.criado?.getTime()
         }
 
         def dateDiff = new Date()
