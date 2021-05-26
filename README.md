@@ -1,5 +1,5 @@
 # Verificação e Validação de Software II
-[![Build Status](https://travis-ci.org/ES-PUCRS/vv2_portaria.svg?branch=master)](https://travis-ci.org/ES-PUCRS/vv2_portaria)
+[![Build Status](https://travis-ci.com/ES-PUCRS/vv2_portaria.svg?branch=master)](https://travis-ci.org/ES-PUCRS/vv2_portaria)
 
 ## Requisitos
 Deseja-se um sistema para controlar entregas em um condomínio.
