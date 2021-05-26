@@ -1,8 +1,7 @@
 dist: trusty
 addons:
-  apt:
-    sources:
-      - google-chrome
+  chrome: stable
+  firefox: latest
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
