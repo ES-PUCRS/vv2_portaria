@@ -1,9 +1,11 @@
 #!/bin/bash
+set -e
 
-EXIT_STATUS=0
+export EXIT_STATUS=0
 
-echo "Running tests with geb.env chromeHeadless"
-./gradlew -Dgeb.env=chromeHeadless check || EXIT_STATUS=$? # 
+curl -O https://raw.githubusercontent.com/grails/grails-guides/master/travis/build-guide
+chmod 777 build-guide
+
+./build-guide || EXIT_STATUS=$?
 
 exit $EXIT_STATUS
-
