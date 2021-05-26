@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         maven { url "https://repo.grails.org/grails/core" }
-        maven { url 'http://dl.bintray.com/agorapulse/libs' }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
@@ -23,7 +22,6 @@ apply plugin:"org.grails.grails-gsp"
 
 repositories {
     maven { url "https://repo.grails.org/grails/core" }
-    maven { url 'http://dl.bintray.com/agorapulse/libs' }
 }
 
 dependencies {
