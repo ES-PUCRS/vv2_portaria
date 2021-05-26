@@ -1,5 +1,5 @@
 addons:
-  chrome: stable
+  chrome: stable #
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
@@ -7,7 +7,7 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 language: groovy
-install:
+install: #
   - true
 jdk:
   - openjdk8
