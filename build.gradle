@@ -86,13 +86,6 @@ tasks.withType(GroovyCompile) {
     }
 }
 
-webdriverBinaries {
-    chromedriver {
-        version = '2.45.0'
-        architecture = 'X86'
-    }
-}
-
 tasks.withType(Test) {
     systemProperty "geb.env", System.getProperty('geb.env')
     systemProperty "geb.build.reportsDir", reporting.file("geb/integrationTest")
@@ -104,5 +97,4 @@ tasks.withType(Test) {
 assets {
     minifyJs = true
     minifyCss = true
-
 }

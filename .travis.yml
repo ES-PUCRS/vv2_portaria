@@ -1,16 +1,24 @@
+language: groovy
 dist: trusty
 addons:
   chrome: stable
   firefox: latest
+
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-language: groovy
-install: # 
-  - true
+
+#before-install:
+#  - "export DISPLAY=99:0"
+#  - "sh -e /etc/init.d/xvfb start"
+#  - sleep 3
+
+install: true
+
 jdk:
   - openjdk8
+
 script: "./travis-build.sh"
