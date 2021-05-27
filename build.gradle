@@ -110,7 +110,6 @@ jacocoTestReport {
 coveralls {
     jacocoReportPath 'build/reports/jacoco/test/jacocoTestReport.xml'
 }
-git
 
 assets {
     minifyJs = true
