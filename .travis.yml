@@ -16,4 +16,8 @@ install: true
 jdk:
   - openjdk8
 
+#*Set build permissions
+#  git update-index --add --chmod=+x travis-build.sh
+#  git commit -m "Atualizando travis-build.sh permissões"
+#  git push
 script: "./travis-build.sh"
