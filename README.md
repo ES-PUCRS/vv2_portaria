@@ -1,6 +1,7 @@
 # Verificação e Validação de Software II
 [![Build Status](https://travis-ci.com/ES-PUCRS/vv2_portaria.svg?branch=master)](https://travis-ci.org/ES-PUCRS/vv2_portaria)
 [![Coverage Status](https://coveralls.io/repos/github/ES-PUCRS/vv2_portaria/badge.svg)](https://coveralls.io/github/ES-PUCRS/vv2_portaria)
+[![AWS Status](https://img.shields.io/badge/dynamic/json?url=http:%2F%2Fportariavv2.duckdns.org%2Factuator%2Fhealth&label=AWS%20Status&query=status&color=green)](https://img.shields.io/badge/dynamic/json?url=http:%2F%2Fportariavv2.duckdns.org%2Factuator%2Fhealth&label=AWS%20Status&query=status&color=green)
 
 ## Requisitos
 Deseja-se um sistema para controlar entregas em um condomínio.
