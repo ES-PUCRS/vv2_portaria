@@ -1,6 +1,6 @@
 # Verificação e Validação de Software II
 [![Build Status](https://travis-ci.com/ES-PUCRS/vv2_portaria.svg?branch=master)](https://travis-ci.org/ES-PUCRS/vv2_portaria)
-[![Coverage Status](https://coveralls.io/repos/github/ES-PUCRS/vv2_portaria/badge.svg?branch=master)](https://coveralls.io/github/ES-PUCRS/vv2_portaria?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/ES-PUCRS/vv2_portaria/badge.svg)](https://coveralls.io/github/ES-PUCRS/vv2_portaria)
 
 ## Requisitos
 Deseja-se um sistema para controlar entregas em um condomínio.
