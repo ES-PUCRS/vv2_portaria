@@ -6,20 +6,22 @@ buildscript {
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "gradle.plugin.com.github.erdi.webdriver-binaries:webdriver-binaries-gradle-plugin:2.4"
-        classpath "org.grails.plugins:hibernate5:7.0.4"
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.0'
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:3.2.4"
+        classpath "org.grails.plugins:hibernate5:7.0.4"
     }
 }
 
 version "0.1"
 group "org.vv2.pingus"
 
-apply plugin:"eclipse"
 apply plugin:"idea"
 apply plugin:"org.grails.grails-web"
 apply plugin:"com.github.erdi.webdriver-binaries"
 apply plugin:"com.bertramlabs.asset-pipeline"
 apply plugin:"org.grails.grails-gsp"
+apply plugin:"jacoco"
+apply plugin:"com.github.kt3k.coveralls"
 
 repositories {
     maven { url "https://repo.grails.org/grails/core" }
@@ -93,6 +95,21 @@ tasks.withType(Test) {
     systemProperty "webdriver.gecko.driver", System.getProperty('webdriver.gecko.driver')
 }
 
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
+}
+
+coveralls {
+    jacocoReportPath 'build/reports/jacoco/test/jacocoTestReport.xml'
+}
 
 assets {
     minifyJs = true
