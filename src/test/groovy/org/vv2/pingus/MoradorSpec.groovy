@@ -7,15 +7,15 @@ class MoradorSpec extends Specification implements DomainUnitTest<Morador> {
 
     def setup() {
         new Morador(
-            nome: "Thomas Nelson Mateus da Rocha",
+            nome: "Thomas Mateus da Rocha",
             rg: "35.482.513-6",
             apto: 204,
             inativo: false
         ).save(flush: true)
         new Morador(
-            nome: "Thomas Nelson Mateus da Rocha",
-            rg: "35.482.513-6",
-            apto: 204,
+            nome: "Thomas Bartolomeu",
+            rg: "35.482.513-8",
+            apto: 207,
             inativo: false
         ).save(flush: true)
     }
@@ -40,12 +40,26 @@ class MoradorSpec extends Specification implements DomainUnitTest<Morador> {
     }
 
     void "Teste delete morador"() {
-        when:"There is no change between"
+        when: "There is no change between"
         def count = Morador.count()
 
         Morador.findById(1).delete(flush: true)
 
-        then:"The model is correct"
+        then: "The model is correct"
         Morador.count() == count - 1
+    }
+
+    void "Test count all"() {
+        when:"There is no change between"
+
+        then:"The model is correct"
+        Morador.count() == 2
+    }
+
+    void "Test list by name"() {
+        when:"There is no change between"
+
+        then:"The model is correct"
+        Morador.findByNome("Thomas Bartolomeu") != null
     }
 }
