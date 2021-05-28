@@ -31,16 +31,6 @@ class RegistroController {
             respond registro.errors, view:'show'
             return
         }
-        redirect controller: "entrega", action: "index"
-    }
-
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'registro.label', default: 'Registro'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*'{ render status: NOT_FOUND }
-        }
+        redirect controller: "registro", action: "show"
     }
 }

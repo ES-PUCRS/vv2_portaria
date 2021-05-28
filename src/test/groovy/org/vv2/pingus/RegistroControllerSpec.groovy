@@ -22,9 +22,3 @@ class RegistroControllerSpec extends Specification implements ControllerUnitTest
     }
 
 }
-
-
-
-
-
-

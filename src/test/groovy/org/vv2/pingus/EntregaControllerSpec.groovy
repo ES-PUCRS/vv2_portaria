@@ -1,8 +1,8 @@
 package org.vv2.pingus
 
-import grails.testing.gorm.DomainUnitTest
 import grails.testing.web.controllers.ControllerUnitTest
 import grails.validation.ValidationException
+import grails.testing.gorm.DomainUnitTest
 import spock.lang.*
 
 class EntregaControllerSpec extends Specification implements ControllerUnitTest<EntregaController>, DomainUnitTest<Entrega> {

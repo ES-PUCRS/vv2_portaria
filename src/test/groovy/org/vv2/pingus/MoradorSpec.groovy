@@ -50,16 +50,9 @@ class MoradorSpec extends Specification implements DomainUnitTest<Morador> {
     }
 
     void "Test count all"() {
-        when:"There is no change between"
-
+        when:"There is no change"
         then:"The model is correct"
-        Morador.count() == 2
+        Morador?.findByNome("Thomas Bartolomeu")?.toString() == "Thomas Bartolomeu"
     }
 
-    void "Test list by name"() {
-        when:"There is no change between"
-
-        then:"The model is correct"
-        Morador.findByNome("Thomas Bartolomeu") != null
-    }
 }
