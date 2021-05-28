@@ -1,3 +1,5 @@
+package org.vv2.pingus
+
 enum SearchFields {
 //    ENTREGA     ("ENTREGA"),
     DESCRICAO   ("DESCRICAO"),

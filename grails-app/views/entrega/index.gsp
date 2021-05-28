@@ -1,4 +1,4 @@
-<%@ page import="groovy.time.TimeCategory; org.vv2.pingus.Operador; org.vv2.pingus.Entrega; java.text.SimpleDateFormat; org.vv2.pingus.OperadorController" %>
+<%@ page import="org.vv2.pingus.SearchFields; groovy.time.TimeCategory; org.vv2.pingus.Operador; org.vv2.pingus.Entrega; java.text.SimpleDateFormat; org.vv2.pingus.OperadorController" %>
 <!DOCTYPE html>
 <html>
     <head>
