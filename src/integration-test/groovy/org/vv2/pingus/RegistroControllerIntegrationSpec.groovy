@@ -13,15 +13,15 @@ class RegistroControllerIntegrationSpec extends Specification implements Control
         Operador.findByNome("Thomas").get(1).getId()
     }
 
-    void "Test the show Registro"() {
-        given:
-        setupData()
-
-        when:"The show action is executed with a null domain"
-        controller.show()
-
-        then:"A 404 error is returned"
-        response.status == 200
-    }
+//    void "Test the show Registro"() {
+//        given:
+//        setupData()
+//
+//        when:"The show action is executed with a null domain"
+//        controller.show()
+//
+//        then:"A 404 error is returned"
+//        response.status == 200
+//    }
 
 }
