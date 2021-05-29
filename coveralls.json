@@ -1,0 +1,6 @@
+{
+  "skip_files": [
+    "grails-app/init/org/vv2/pingus/Application.groovy",
+    "grails-app/init/org/vv2/pingus/BootStrap.groovy"
+  ]
+}
