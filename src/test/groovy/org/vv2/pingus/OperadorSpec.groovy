@@ -39,4 +39,10 @@ class OperadorSpec extends Specification implements DomainUnitTest<Operador> {
         then:"The model is correct"
         Operador.count() == count - 1
     }
+
+    void "Test toString response"() {
+        when:"There is no change"
+        then:"The model is correct"
+        Operador?.findByNome("Jose Otavio")?.toString() == "Jose Otavio"
+    }
 }

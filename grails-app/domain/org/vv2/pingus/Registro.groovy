@@ -9,9 +9,4 @@ class Registro {
         jSessionId  nullable: false
         operador    nullable: false
     }
-
-    @Override
-    String toString(){
-        operador.nome
-    }
 }
