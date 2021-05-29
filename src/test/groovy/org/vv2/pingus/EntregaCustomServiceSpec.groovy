@@ -93,16 +93,22 @@ class EntregaCustomServiceSpec extends Specification implements ServiceUnitTest<
     }
 
     void "Test EntregaCustomService searchByRETIRADA 0"() {
+        def entrega = Entrega.all.findAll {
+            it.retirado != null
+        }
+        def date = entrega[0].retirado
+        def assertDate = sdf.format(date)
+
         def params = [
                 'searchfield'   : "RETIRADA",
-                'searchfor'     : "04/04"
+                'searchfor'     : "${assertDate}"
         ]
 
         when:"Setup list"
         def list = EntregaCustomService.searchBy(params.searchfield as String, params.searchfor)
 
-        then: "Assert none"
-        list.get(0).retirado.toString() == sdf.parse("04/04/21 11:00").toString()
+        then: "Assert one"
+        assert list.get(0).retirado == date
     }
 
     void "Test EntregaCustomService searchByRETIRADA null"() {
