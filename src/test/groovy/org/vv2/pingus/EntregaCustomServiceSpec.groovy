@@ -2,6 +2,8 @@ package org.vv2.pingus
 
 import grails.testing.services.ServiceUnitTest
 import grails.testing.gorm.DomainUnitTest
+import groovy.time.TimeCategory
+
 import java.text.SimpleDateFormat
 import spock.lang.Specification
 
@@ -11,40 +13,40 @@ class EntregaCustomServiceSpec extends Specification implements ServiceUnitTest<
 
     def setup() {
         new Entrega(
-                criado: sdf.parse("14/12/20 11:26"),
+                criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.day })),
                 descricao: "sedex cx 27x25x70cm",
                 apto: 103,
                 operador: new Operador(nome: "Jose Otavio da Mata")
-        ).save(flush: true)
+        ).save(flush: true, failOnError: true)
         new Entrega(
-                criado: sdf.parse("16/12/20 12:26"),
+                criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 22.minute })),
                 descricao: "sedex envelope",
                 apto: 101,
                 operador: new Operador(nome: "Jose Otavio da Mata")
-        ).save(flush: true)
+        ).save(flush: true, failOnError: true)
         new Entrega(
-                criado: sdf.parse("16/12/20 12:26"),
+                criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.hour })),
                 descricao: "sedex cx",
                 apto: 101,
                 operador: new Operador(nome: "Jose Otavio da Mata")
-        ).save(flush: true)
+        ).save(flush: true, failOnError: true)
 
         new Entrega(
-                criado: sdf.parse("01/01/21 11:00"),
+                criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.week })),
                 descricao: "correios carta pequena",
                 apto: 101,
                 operador: new Operador(nome: "Jose Otavio da Mata"),
-                retirado: sdf.parse("03/04/21 09:01"),
+                retirado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.day })),
                 morador: new Morador(nome: "Levi Kate Jesus", apto: 1, rg: "24.222.979-2", inativo: false)
-        ).save(flush: true)
+        ).save(flush: true, failOnError: true)
         new Entrega(
-                criado: sdf.parse("01/01/21 09:07"),
+                criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.month })),
                 descricao: "correios cx media",
                 apto: 101,
                 operador: new Operador(nome: "Jose Otavio da Mata"),
-                retirado: sdf.parse("04/04/21 11:00"),
+                retirado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.day })),
                 morador: new Morador(nome: "Levi Kate Jesus", apto: 2, rg: "24.222.979-3", inativo: false)
-        ).save(flush: true)
+        ).save(flush: true, failOnError: true)
     }
 
     def cleanup() {
@@ -128,13 +130,12 @@ class EntregaCustomServiceSpec extends Specification implements ServiceUnitTest<
 //    void "Test the average of the delivery time"() {
 //        when:"Setup list"
 //        then:"Should find 3"
-//        EntregaCustomService.findDeliveryAverageTime()
 //        assert EntregaCustomService.findDeliveryAverageTime()
 //    }
 
-//    void "Test find on last 30 days"() {
-//        when:"Setup list"
-//        then:"Should find 3"
-//        assert EntregaCustomService.findAllByDateCreatedGreaterThan()
-//    }
+    void "Test find on last 30 days"() {
+        when:"Setup list"
+        then:"Should find 3"
+        assert EntregaCustomService.findAllByDateCreatedGreaterThan(use (TimeCategory) { new Date() - 1.month }).size() == 4
+    }
 }
