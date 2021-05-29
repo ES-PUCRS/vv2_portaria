@@ -22,6 +22,12 @@ class EntregaCustomServiceSpec extends Specification implements ServiceUnitTest<
                 apto: 101,
                 operador: new Operador(nome: "Jose Otavio da Mata")
         ).save(flush: true)
+        new Entrega(
+                criado: sdf.parse("16/12/20 12:26"),
+                descricao: "sedex cx",
+                apto: 101,
+                operador: new Operador(nome: "Jose Otavio da Mata")
+        ).save(flush: true)
 
         new Entrega(
                 criado: sdf.parse("01/01/21 11:00"),
@@ -29,7 +35,7 @@ class EntregaCustomServiceSpec extends Specification implements ServiceUnitTest<
                 apto: 101,
                 operador: new Operador(nome: "Jose Otavio da Mata"),
                 retirado: sdf.parse("03/04/21 09:01"),
-                morador: Morador.findByNome("Levi Kate Jesus")
+                morador: new Morador(nome: "Levi Kate Jesus", apto: 1, rg: "24.222.979-2", inativo: false)
         ).save(flush: true)
         new Entrega(
                 criado: sdf.parse("01/01/21 09:07"),
@@ -37,7 +43,7 @@ class EntregaCustomServiceSpec extends Specification implements ServiceUnitTest<
                 apto: 101,
                 operador: new Operador(nome: "Jose Otavio da Mata"),
                 retirado: sdf.parse("04/04/21 11:00"),
-                morador: Morador.findByNome("Levi Kate Jesus")
+                morador: new Morador(nome: "Levi Kate Jesus", apto: 2, rg: "24.222.979-3", inativo: false)
         ).save(flush: true)
     }
 
@@ -45,7 +51,7 @@ class EntregaCustomServiceSpec extends Specification implements ServiceUnitTest<
         Entrega.deleteAll()
     }
 
-    void "Test EntregaCustomService searchByDESCRICAO 2"() {
+    void "Test EntregaCustomService searchByDESCRICAO 3"() {
         def params = [
                 'searchfield'   : "DESCRICAO",
                 'searchfor'     : "cx"
@@ -55,7 +61,7 @@ class EntregaCustomServiceSpec extends Specification implements ServiceUnitTest<
         def list = EntregaCustomService.searchBy(params.searchfield as String, params.searchfor)
 
         then: "Assert all"
-        list.size() == 2
+        list.size() == 3
     }
 
     void "Test EntregaCustomService searchByDESCRICAO 1"() {
@@ -84,7 +90,6 @@ class EntregaCustomServiceSpec extends Specification implements ServiceUnitTest<
         list.size() == 0
     }
 
-
     void "Test EntregaCustomService searchByRETIRADA 0"() {
         def params = [
                 'searchfield'   : "RETIRADA",
@@ -98,4 +103,38 @@ class EntregaCustomServiceSpec extends Specification implements ServiceUnitTest<
         list.get(0).retirado.toString() == sdf.parse("04/04/21 11:00").toString()
     }
 
+    void "Test EntregaCustomService searchByRETIRADA null"() {
+        def params = [
+                'searchfield'   : "RETIRADA",
+                'searchfor'     : ""
+        ]
+
+        when:"Setup list"
+        def list = EntregaCustomService.searchBy(params.searchfield as String, params.searchfor)
+
+        then: "Assert none delivered"
+        def filtered = list.findAll {
+            it?.morador != null
+        }
+        assert filtered.size() == 0
+    }
+
+    void "Test find all not delivered"() {
+        when:"Setup list"
+        then:"Should find 3"
+        assert EntregaCustomService.findAllNotDelivered() == 3
+    }
+
+//    void "Test the average of the delivery time"() {
+//        when:"Setup list"
+//        then:"Should find 3"
+//        EntregaCustomService.findDeliveryAverageTime()
+//        assert EntregaCustomService.findDeliveryAverageTime()
+//    }
+
+//    void "Test find on last 30 days"() {
+//        when:"Setup list"
+//        then:"Should find 3"
+//        assert EntregaCustomService.findAllByDateCreatedGreaterThan()
+//    }
 }
