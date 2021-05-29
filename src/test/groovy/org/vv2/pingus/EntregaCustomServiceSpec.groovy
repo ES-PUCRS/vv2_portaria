@@ -47,15 +47,15 @@ class EntregaCustomServiceSpec extends Specification implements ServiceUnitTest<
 
     void "Test EntregaCustomService searchByDESCRICAO 2"() {
         def params = [
-            'searchfield'   : "DESCRICAO",
-            'searchfor'     : "cx"
+                'searchfield'   : "DESCRICAO",
+                'searchfor'     : "cx"
         ]
 
         when:"Setup list"
         def list = EntregaCustomService.searchBy(params.searchfield as String, params.searchfor)
-        
+
         then: "Assert all"
-            list.size() == 2
+        list.size() == 2
     }
 
     void "Test EntregaCustomService searchByDESCRICAO 1"() {
