@@ -7,6 +7,35 @@ import java.text.SimpleDateFormat
 @Transactional
 class EntregaCustomService {
 
+    static List<Entrega> findAllByDateCreatedGreaterThan(Date date) {
+        Entrega.all.findAll {
+            if(it.criado)
+                it.criado.after date
+        }
+    }
+
+    static Calendar findDeliveryAverageTime() {
+        def list = Entrega.all.findAll{
+            it?.criado && it?.retirado
+        }
+
+        Long difference = 0L
+        for(entrega in list){
+            difference +=
+                    entrega?.retirado?.getTime()
+            -   entrega?.criado?.getTime()
+        }
+
+        def dateDiff = new Date()
+        dateDiff.setTime((difference / list.size()) as Long)
+        def calendar = Calendar.getInstance()
+        calendar.setTime(dateDiff)
+        return calendar
+    }
+
+    static int findAllNotDelivered() {
+        Entrega.findAllWhere(morador: null).size()
+    }
 
     static List<Entrega> searchBy(String field, String[] params)  {
         List<Entrega> list = []
@@ -16,18 +45,31 @@ class EntregaCustomService {
         return list
     }
 
+/* -------------------- Pesquisas -------------------------- */
 
-//    private static List<Entrega> searchByENTREGA(String id) {
-//        def list = []
-//        try { list.add(Entrega.findById(Integer.parseInt(id))) } catch (Exception ignored) {}
-//        return list
-//    }
+    private static List<Entrega> searchByRETIRADA(String data) {
+        if (data.isEmpty()) {
+            Entrega.findAllWhere(retirado: null)
+        } else {
+            def sdf = new SimpleDateFormat("dd/MM/yy HH:mm")
+            Entrega.all.findAll {
+                if (it.retirado)
+                    sdf.format(it.retirado).toString().contains("${data}")
+            }
+        }
+    }
 
     private static List<Entrega> searchByDESCRICAO(String descricao) {
         Entrega.all.findAll {
             it.descricao.contains "${descricao}"
         }
     }
+
+//    private static List<Entrega> searchByENTREGA(String id) {
+//        def list = []
+//        try { list.add(Entrega.findById(Integer.parseInt(id))) } catch (Exception ignored) {}
+//        return list
+//    }
 
 //    private static List<Entrega> searchByDATA(String data) {
 //        def sdf = new SimpleDateFormat("dd/MM/yy HH:mm")
@@ -54,18 +96,6 @@ class EntregaCustomService {
 //        }
 //    }
 
-    private static List<Entrega> searchByRETIRADA(String data) {
-        if (data.isEmpty()) {
-            Entrega.findAllWhere(retirado: null)
-        } else {
-            def sdf = new SimpleDateFormat("dd/MM/yy HH:mm")
-            Entrega.all.findAll {
-                if (it.retirado)
-                    sdf.format(it.retirado).toString().contains("${data}")
-            }
-        }
-    }
-
 //    private static List<Entrega> searchByMORADOR(String nome) {
 //        if ( nome.isEmpty() ) {
 //            Entrega.findAllWhere(morador: null)
@@ -76,5 +106,7 @@ class EntregaCustomService {
 //            }
 //        }
 //    }
+
+
 
 }

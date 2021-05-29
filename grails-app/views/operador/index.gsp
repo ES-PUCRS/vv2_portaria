@@ -11,7 +11,9 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Controllers<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-                        <li class="controller"><g:link controller="${c.logicalPropertyName}">${c.name}</g:link></li>
+                        <g:if test="${c?.name != 'Registro'}">
+                            <li class="controller"><g:link controller="${c.logicalPropertyName}">${c.name}</g:link></li>
+                        </g:if>
                     </g:each>
                 </ul>
             </li>

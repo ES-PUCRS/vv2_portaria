@@ -1,4 +1,4 @@
-<%@ page import="org.vv2.pingus.SearchFields; groovy.time.TimeCategory; org.vv2.pingus.Operador; org.vv2.pingus.Entrega; java.text.SimpleDateFormat; org.vv2.pingus.OperadorController" %>
+<%@ page import="org.vv2.pingus.EntregaCustomService; org.vv2.pingus.SearchFields; groovy.time.TimeCategory; org.vv2.pingus.Operador; org.vv2.pingus.Entrega; java.text.SimpleDateFormat; org.vv2.pingus.OperadorController" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,7 +12,9 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Controllers<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-                        <li class="controller"><g:link controller="${c.logicalPropertyName}">${c.name}</g:link></li>
+                        <g:if test="${c?.name != 'Registro'}">
+                            <li class="controller"><g:link controller="${c.logicalPropertyName}">${c.name}</g:link></li>
+                        </g:if>
                     </g:each>
                 </ul>
             </li>
@@ -76,11 +78,11 @@
                     <g:paginate total="${entregaCount ?: 0}" />
                 <div class="dashboard-block">
                     <p>Recebidos nos últimos 30 dias:</p>
-                        <g:textField disabled="true" name="fieldByTime" class="dashboard-field" value="${Entrega.findAllByDateCreatedGreaterThan(use (TimeCategory) { new Date() - 1.month }).size()}"/>
+                        <g:textField disabled="true" name="fieldByTime" class="dashboard-field" value="${EntregaCustomService.findAllByDateCreatedGreaterThan(use (TimeCategory) { new Date() - 1.month }).size()}"/>
                     <p style="margin-left: 20px">Não retiradas:</p>
-                        <g:textField disabled="true" name="fieldUndelivered" class="dashboard-field" value="${Entrega.findAllWhere(morador: null).size()}"/>
+                        <g:textField disabled="true" name="fieldUndelivered" class="dashboard-field" value="${EntregaCustomService.findAllNotDelivered()}"/>
                     <p style="margin-left: 20px">Tempo médio entre registro e retirada:</p>
-                    <g:set class="dashboard-average-field" var="dateAverage" value="${Entrega.findDeliveryAverageTime()}" />
+                    <g:set class="dashboard-average-field" var="dateAverage" value="${EntregaCustomService.findDeliveryAverageTime()}" />
                         <g:textField disabled="true" name="fieldAverage" class="dashboard-average-field" value="${dateAverage.get(Calendar.DAY_OF_YEAR)}D ${dateAverage.get(Calendar.HOUR_OF_DAY)}h ${dateAverage.get(Calendar.MINUTE)}m"/>
                 </div>
             </div>

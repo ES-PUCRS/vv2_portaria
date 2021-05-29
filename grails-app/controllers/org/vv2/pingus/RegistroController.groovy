@@ -27,10 +27,10 @@ class RegistroController {
 
         try {
             registroService.save(registro)
-        } catch (ValidationException e) {
+        } catch (ValidationException ignored) {
             respond registro.errors, view:'show'
             return
         }
-        redirect controller: "registro", action: "show"
+        redirect controller: "entrega", action: "index"
     }
 }

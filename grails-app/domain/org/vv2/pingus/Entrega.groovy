@@ -2,8 +2,9 @@ package org.vv2.pingus
 
 class Entrega {
 
-    Date        dateCreated
-    Date        lastUpdated
+    Date        dateCreated // Grails create-date
+    Date        lastUpdated // Grails update-date
+    // BigDecimal id -> grails mapping
     Date        criado
     String      descricao
     Integer     apto
@@ -27,29 +28,4 @@ class Entrega {
         version false
     }
 
-    static List<Entrega> findAllByDateCreatedGreaterThan(Date date) {
-        Entrega.all.findAll {
-            if(it.criado)
-                it.criado.after date
-        }
-    }
-
-    static Calendar findDeliveryAverageTime() {
-        def list = Entrega.all.findAll{
-            it?.criado && it?.retirado
-        }
-
-        Long difference = 0L
-        for(entrega in list){
-            difference +=
-                entrega?.retirado?.getTime()
-            -   entrega?.criado?.getTime()
-        }
-
-        def dateDiff = new Date()
-        dateDiff.setTime((difference / list.size()) as Long)
-        def calendar = Calendar.getInstance()
-        calendar.setTime(dateDiff)
-        return calendar
-    }
 }
