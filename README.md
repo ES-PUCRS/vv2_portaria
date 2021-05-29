@@ -1,6 +1,6 @@
 # Verificação e Validação de Software II
 [![Build Status](https://travis-ci.com/ES-PUCRS/vv2_portaria.svg?branch=master)](https://travis-ci.org/ES-PUCRS/vv2_portaria)
-[![Coverage Status](https://coveralls.io/repos/github/ES-PUCRS/vv2_portaria/badge.svg)](https://coveralls.io/github/ES-PUCRS/vv2_portaria)
+[![Coverage Status](https://coveralls.io/repos/github/ES-PUCRS/vv2_portaria/badge.svg?branch=master)](https://coveralls.io/github/ES-PUCRS/vv2_portaria?branch=master)
 [![AWS Status](https://img.shields.io/website?down_color=red&down_message=down&up_color=success&up_message=up&label=AWS%20Status&url=http%3A%2F%2Fportariavv2.duckdns.org%2Factuator%2Fhealth)](https://img.shields.io/badge/AWS%20Status-down-red)
 
 ## Requisitos
