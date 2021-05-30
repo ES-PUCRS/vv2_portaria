@@ -14,10 +14,10 @@ chmod 777 ./grailsw
 #echo "Running tests with gradle geb.env firefoxHeadless"
 #./gradlew -Dgeb.env=firefoxHeadless iT || EXIT_STATUS=$?
 
-echo "Running tests with grailsw unit"
-./grailsw test-app -unit
+echo "Running tests with grailsw tests"
+./grailsw test-app
 
-echo "Running tests with grailsw integration"
-./grailsw test-app -integration
+#echo "Running tests with grailsw integration"
+#./grailsw test-app -integration
 
 exit $EXIT_STATUS
