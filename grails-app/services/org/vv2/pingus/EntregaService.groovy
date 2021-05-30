@@ -11,8 +11,6 @@ interface EntregaService {
 
     Long count()
 
-    void delete(Serializable id)
-
     Entrega save(Entrega entrega)
 
 }

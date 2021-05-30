@@ -103,23 +103,6 @@ class EntregaController {
         }
     }
 
-    def delete(Long id) {
-        if (id == null) {
-            notFound()
-            return
-        }
-
-        entregaService.delete(id)
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'entrega.label', default: 'Entrega'), id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
-    }
-
     def logout() {
         def registro = registroCustomService.searchByCookieActive(request)
 
