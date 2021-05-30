@@ -8,12 +8,11 @@ import groovy.time.TimeCategory
 
 @Integration
 @Rollback
-class entregaCustomServiceIT extends Specification {
+class EntregaCustomServiceIT extends Specification {
 
     static def sdf = new SimpleDateFormat("dd/MM/yy HH:mm")
     EntregaCustomService entregaCustomService
     EntregaService entregaService
-    def sessionFactory
 
     private long setupData() {
         new Entrega(

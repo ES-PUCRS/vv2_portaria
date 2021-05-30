@@ -3,9 +3,14 @@ package org.vv2.pingus
 import grails.testing.web.controllers.ControllerUnitTest
 import grails.validation.ValidationException
 import grails.testing.gorm.DomainUnitTest
+import groovy.time.TimeCategory
 import spock.lang.*
 
+import java.text.SimpleDateFormat
+
 class EntregaControllerSpec extends Specification implements ControllerUnitTest<EntregaController>, DomainUnitTest<Entrega> {
+
+    static def sdf = new SimpleDateFormat("dd/MM/yy HH:mm")
 
     def populateValidParams(params) {
         params["descricao"] = "TestSpec"
@@ -155,7 +160,7 @@ class EntregaControllerSpec extends Specification implements ControllerUnitTest<
 
     void "Test the update action correctly persists"() {
         given:
-        controller.entregaService = Mock(EntregaService) {
+        controller.entregaCustomService = Mock(EntregaCustomService) {
             1 * save(_ as Entrega)
         }
 
@@ -164,7 +169,13 @@ class EntregaControllerSpec extends Specification implements ControllerUnitTest<
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'PUT'
         populateValidParams(params)
-        def entrega = new Entrega(params)
+        def entrega = new Entrega(
+            criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.day })),
+            descricao: "sedex cx 27x25x70cm",
+            apto: 103,
+            operador: new Operador(nome: "Jose Otavio da Mata"),
+            morador: new Morador(nome: "Tavares Rodrigo", rg: '000000000', apto: 900 ,inativo: false)
+        )
         entrega.id = 1
 
         controller.update(entrega)
@@ -176,7 +187,7 @@ class EntregaControllerSpec extends Specification implements ControllerUnitTest<
 
     void "Test the update action with an invalid instance"() {
         given:
-        controller.entregaService = Mock(EntregaService) {
+        controller.entregaCustomService = Mock(EntregaCustomService) {
             1 * save(_ as Entrega) >> { Entrega entrega ->
                 throw new ValidationException("Invalid instance", entrega.errors)
             }
