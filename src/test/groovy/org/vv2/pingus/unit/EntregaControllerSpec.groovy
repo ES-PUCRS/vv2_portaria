@@ -1,20 +1,34 @@
-package org.vv2.pingus
+package org.vv2.pingus.unit
 
-import grails.testing.gorm.DomainUnitTest
 import grails.testing.web.controllers.ControllerUnitTest
 import grails.validation.ValidationException
+import grails.testing.gorm.DomainUnitTest
+import groovy.time.TimeCategory
+import org.vv2.pingus.Entrega
+import org.vv2.pingus.EntregaController
+import org.vv2.pingus.EntregaCustomService
+import org.vv2.pingus.EntregaService
+import org.vv2.pingus.Morador
+import org.vv2.pingus.Operador
 import spock.lang.*
 
-class OperadorControllerSpec extends Specification implements ControllerUnitTest<OperadorController>, DomainUnitTest<Operador> {
+import java.text.SimpleDateFormat
+
+class EntregaControllerSpec extends Specification implements ControllerUnitTest<EntregaController>, DomainUnitTest<Entrega> {
+
+    static def sdf = new SimpleDateFormat("dd/MM/yy HH:mm")
 
     def populateValidParams(params) {
-        params["nome"] = 'Rebeca Valeska'
+        params["descricao"] = "TestSpec"
+        params["operador"]  = 1
+        params["apto"]      = 404
+
         assert params != null
     }
 
     void "Test the index action returns the correct model"() {
         given:
-        controller.operadorService = Mock(OperadorService) {
+        controller.entregaService = Mock(EntregaService) {
             1 * list(_) >> []
             1 * count() >> 0
         }
@@ -23,8 +37,8 @@ class OperadorControllerSpec extends Specification implements ControllerUnitTest
         controller.index()
 
         then:"The model is correct"
-        !model.operadorList
-        model.operadorCount == 0
+        !model.entregaList
+        model.entregaCount == 0
     }
 
     void "Test the create action returns the correct model"() {
@@ -32,7 +46,7 @@ class OperadorControllerSpec extends Specification implements ControllerUnitTest
         controller.create()
 
         then:"The model is correctly created"
-        model.operador!= null
+        model.entrega != null
     }
 
     void "Test the save action with a null instance"() {
@@ -42,14 +56,14 @@ class OperadorControllerSpec extends Specification implements ControllerUnitTest
         controller.save(null)
 
         then:"A 404 error is returned"
-        response.redirectedUrl == '/operador/index'
+        response.redirectedUrl == '/entrega/index'
         flash.message != null
     }
 
     void "Test the save action correctly persists"() {
         given:
-        controller.operadorService = Mock(OperadorService) {
-            1 * save(_ as Operador)
+        controller.entregaService = Mock(EntregaService) {
+            1 * save(_ as Entrega)
         }
 
         when:"The save action is executed with a valid instance"
@@ -57,38 +71,38 @@ class OperadorControllerSpec extends Specification implements ControllerUnitTest
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'POST'
         populateValidParams(params)
-        def operador = new Operador(params)
-        operador.id = 1
+        def entrega = new Entrega(params)
+        entrega.id = 1
 
-        controller.save(operador)
+        controller.save(entrega)
 
         then:"A redirect is issued to the show action"
-        response.redirectedUrl == '/operador/show/1'
+        response.redirectedUrl == '/entrega/show/1'
         controller.flash.message != null
     }
 
     void "Test the save action with an invalid instance"() {
         given:
-        controller.operadorService = Mock(OperadorService) {
-            1 * save(_ as Operador) >> { Operador operador ->
-                throw new ValidationException("Invalid instance", operador.errors)
+        controller.entregaService = Mock(EntregaService) {
+            1 * save(_ as Entrega) >> { Entrega entrega ->
+                throw new ValidationException("Invalid instance", entrega.errors)
             }
         }
 
         when:"The save action is executed with an invalid instance"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'POST'
-        def operador = new Operador()
-        controller.save(operador)
+        def entrega = new Entrega()
+        controller.save(entrega)
 
         then:"The create view is rendered again with the correct model"
-        model.operador != null
+        model.entrega != null
         view == 'create'
     }
 
     void "Test the show action with a null id"() {
         given:
-        controller.operadorService = Mock(OperadorService) {
+        controller.entregaService = Mock(EntregaService) {
             1 * get(null) >> null
         }
 
@@ -101,20 +115,20 @@ class OperadorControllerSpec extends Specification implements ControllerUnitTest
 
     void "Test the show action with a valid id"() {
         given:
-        controller.operadorService = Mock(OperadorService) {
-            1 * get(2) >> new Operador()
+        controller.entregaService = Mock(EntregaService) {
+            1 * get(2) >> new Entrega()
         }
 
         when:"A domain instance is passed to the show action"
         controller.show(2)
 
         then:"A model is populated containing the domain instance"
-        model.operador instanceof Operador
+        model.entrega instanceof Entrega
     }
 
     void "Test the edit action with a null id"() {
         given:
-        controller.operadorService = Mock(OperadorService) {
+        controller.entregaService = Mock(EntregaService) {
             1 * get(null) >> null
         }
 
@@ -127,15 +141,15 @@ class OperadorControllerSpec extends Specification implements ControllerUnitTest
 
     void "Test the edit action with a valid id"() {
         given:
-        controller.operadorService = Mock(OperadorService) {
-            1 * get(2) >> new Operador()
+        controller.entregaService = Mock(EntregaService) {
+            1 * get(2) >> new Entrega()
         }
 
         when:"A domain instance is passed to the show action"
         controller.edit(2)
 
         then:"A model is populated containing the domain instance"
-        model.operador instanceof Operador
+        model.entrega instanceof Entrega
     }
 
 
@@ -146,14 +160,14 @@ class OperadorControllerSpec extends Specification implements ControllerUnitTest
         controller.update(null)
 
         then:"A 404 error is returned"
-        response.redirectedUrl == '/operador/index'
+        response.redirectedUrl == '/entrega/index'
         flash.message != null
     }
 
     void "Test the update action correctly persists"() {
         given:
-        controller.operadorService = Mock(OperadorService) {
-            1 * save(_ as Operador)
+        controller.entregaCustomService = Mock(EntregaCustomService) {
+            1 * save(_ as Entrega)
         }
 
         when:"The save action is executed with a valid instance"
@@ -161,60 +175,40 @@ class OperadorControllerSpec extends Specification implements ControllerUnitTest
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'PUT'
         populateValidParams(params)
-        def operador = new Operador(params)
-        operador.id = 1
+        def entrega = new Entrega(
+            criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.day })),
+            descricao: "sedex cx 27x25x70cm",
+            apto: 103,
+            operador: new Operador(nome: "Jose Otavio da Mata"),
+            morador: new Morador(nome: "Tavares Rodrigo", rg: '000000000', apto: 900 ,inativo: false)
+        )
+        entrega.id = 1
 
-        controller.update(operador)
+        controller.update(entrega)
 
         then:"A redirect is issued to the show action"
-        response.redirectedUrl == '/operador/show/1'
+        response.redirectedUrl == '/entrega/show/1'
         controller.flash.message != null
     }
 
     void "Test the update action with an invalid instance"() {
         given:
-        controller.operadorService = Mock(OperadorService) {
-            1 * save(_ as Operador) >> { Operador operador ->
-                throw new ValidationException("Invalid instance", operador.errors)
+        controller.entregaCustomService = Mock(EntregaCustomService) {
+            1 * save(_ as Entrega) >> { Entrega entrega ->
+                throw new ValidationException("Invalid instance", entrega.errors)
             }
         }
 
         when:"The save action is executed with an invalid instance"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'PUT'
-        controller.update(new Operador())
+        controller.update(new Entrega())
 
         then:"The edit view is rendered again with the correct model"
-        model.operador != null
+        model.entrega != null
         view == 'edit'
     }
 
-    void "Test the delete action with a null instance"() {
-        when:"The delete action is called for a null instance"
-        request.contentType = FORM_CONTENT_TYPE
-        request.method = 'DELETE'
-        controller.delete(null)
-
-        then:"A 404 is returned"
-        response.redirectedUrl == '/operador/index'
-        flash.message != null
-    }
-
-    void "Test the delete action with an instance"() {
-        given:
-        controller.operadorService = Mock(OperadorService) {
-            1 * delete(2)
-        }
-
-        when:"The domain instance is passed to the delete action"
-        request.contentType = FORM_CONTENT_TYPE
-        request.method = 'DELETE'
-        controller.delete(2)
-
-        then:"The user is redirected to index"
-        response.redirectedUrl == '/operador/index'
-        flash.message != null
-    }
 }
 
 

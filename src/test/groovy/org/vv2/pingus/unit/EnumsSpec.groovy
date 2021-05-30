@@ -1,5 +1,6 @@
-package org.vv2.pingus
+package org.vv2.pingus.unit
 
+import org.vv2.pingus.SearchFields
 import spock.lang.Specification
 
 class EnumsSpec extends Specification{

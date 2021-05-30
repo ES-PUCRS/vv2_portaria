@@ -1,23 +1,23 @@
-package org.vv2.pingus
+package org.vv2.pingus.unit
 
 import grails.testing.gorm.DomainUnitTest
 import grails.testing.web.controllers.ControllerUnitTest
 import grails.validation.ValidationException
+import org.vv2.pingus.Operador
+import org.vv2.pingus.OperadorController
+import org.vv2.pingus.OperadorService
 import spock.lang.*
 
-class MoradorControllerSpec extends Specification implements ControllerUnitTest<MoradorController>, DomainUnitTest<Morador> {
+class OperadorControllerSpec extends Specification implements ControllerUnitTest<OperadorController>, DomainUnitTest<Operador> {
 
     def populateValidParams(params) {
-        params["descricao"] = "TestSpec"
-        params["operador"]  = 1
-        params["apto"]      = 404
-
+        params["nome"] = 'Rebeca Valeska'
         assert params != null
     }
 
     void "Test the index action returns the correct model"() {
         given:
-        controller.moradorService = Mock(MoradorService) {
+        controller.operadorService = Mock(OperadorService) {
             1 * list(_) >> []
             1 * count() >> 0
         }
@@ -26,8 +26,8 @@ class MoradorControllerSpec extends Specification implements ControllerUnitTest<
         controller.index()
 
         then:"The model is correct"
-        !model.moradorList
-        model.moradorCount == 0
+        !model.operadorList
+        model.operadorCount == 0
     }
 
     void "Test the create action returns the correct model"() {
@@ -35,7 +35,7 @@ class MoradorControllerSpec extends Specification implements ControllerUnitTest<
         controller.create()
 
         then:"The model is correctly created"
-        model.morador!= null
+        model.operador!= null
     }
 
     void "Test the save action with a null instance"() {
@@ -45,14 +45,14 @@ class MoradorControllerSpec extends Specification implements ControllerUnitTest<
         controller.save(null)
 
         then:"A 404 error is returned"
-        response.redirectedUrl == '/morador/index'
+        response.redirectedUrl == '/operador/index'
         flash.message != null
     }
 
     void "Test the save action correctly persists"() {
         given:
-        controller.moradorService = Mock(MoradorService) {
-            1 * save(_ as Morador)
+        controller.operadorService = Mock(OperadorService) {
+            1 * save(_ as Operador)
         }
 
         when:"The save action is executed with a valid instance"
@@ -60,38 +60,38 @@ class MoradorControllerSpec extends Specification implements ControllerUnitTest<
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'POST'
         populateValidParams(params)
-        def morador = new Morador(params)
-        morador.id = 1
+        def operador = new Operador(params)
+        operador.id = 1
 
-        controller.save(morador)
+        controller.save(operador)
 
         then:"A redirect is issued to the show action"
-        response.redirectedUrl == '/morador/show/1'
+        response.redirectedUrl == '/operador/show/1'
         controller.flash.message != null
     }
 
     void "Test the save action with an invalid instance"() {
         given:
-        controller.moradorService = Mock(MoradorService) {
-            1 * save(_ as Morador) >> { Morador morador ->
-                throw new ValidationException("Invalid instance", morador.errors)
+        controller.operadorService = Mock(OperadorService) {
+            1 * save(_ as Operador) >> { Operador operador ->
+                throw new ValidationException("Invalid instance", operador.errors)
             }
         }
 
         when:"The save action is executed with an invalid instance"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'POST'
-        def morador = new Morador()
-        controller.save(morador)
+        def operador = new Operador()
+        controller.save(operador)
 
         then:"The create view is rendered again with the correct model"
-        model.morador != null
+        model.operador != null
         view == 'create'
     }
 
     void "Test the show action with a null id"() {
         given:
-        controller.moradorService = Mock(MoradorService) {
+        controller.operadorService = Mock(OperadorService) {
             1 * get(null) >> null
         }
 
@@ -104,20 +104,20 @@ class MoradorControllerSpec extends Specification implements ControllerUnitTest<
 
     void "Test the show action with a valid id"() {
         given:
-        controller.moradorService = Mock(MoradorService) {
-            1 * get(2) >> new Morador()
+        controller.operadorService = Mock(OperadorService) {
+            1 * get(2) >> new Operador()
         }
 
         when:"A domain instance is passed to the show action"
         controller.show(2)
 
         then:"A model is populated containing the domain instance"
-        model.morador instanceof Morador
+        model.operador instanceof Operador
     }
 
     void "Test the edit action with a null id"() {
         given:
-        controller.moradorService = Mock(MoradorService) {
+        controller.operadorService = Mock(OperadorService) {
             1 * get(null) >> null
         }
 
@@ -130,15 +130,15 @@ class MoradorControllerSpec extends Specification implements ControllerUnitTest<
 
     void "Test the edit action with a valid id"() {
         given:
-        controller.moradorService = Mock(MoradorService) {
-            1 * get(2) >> new Morador()
+        controller.operadorService = Mock(OperadorService) {
+            1 * get(2) >> new Operador()
         }
 
         when:"A domain instance is passed to the show action"
         controller.edit(2)
 
         then:"A model is populated containing the domain instance"
-        model.morador instanceof Morador
+        model.operador instanceof Operador
     }
 
 
@@ -149,14 +149,14 @@ class MoradorControllerSpec extends Specification implements ControllerUnitTest<
         controller.update(null)
 
         then:"A 404 error is returned"
-        response.redirectedUrl == '/morador/index'
+        response.redirectedUrl == '/operador/index'
         flash.message != null
     }
 
     void "Test the update action correctly persists"() {
         given:
-        controller.moradorService = Mock(MoradorService) {
-            1 * save(_ as Morador)
+        controller.operadorService = Mock(OperadorService) {
+            1 * save(_ as Operador)
         }
 
         when:"The save action is executed with a valid instance"
@@ -164,31 +164,31 @@ class MoradorControllerSpec extends Specification implements ControllerUnitTest<
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'PUT'
         populateValidParams(params)
-        def morador = new Morador(params)
-        morador.id = 1
+        def operador = new Operador(params)
+        operador.id = 1
 
-        controller.update(morador)
+        controller.update(operador)
 
         then:"A redirect is issued to the show action"
-        response.redirectedUrl == '/morador/show/1'
+        response.redirectedUrl == '/operador/show/1'
         controller.flash.message != null
     }
 
     void "Test the update action with an invalid instance"() {
         given:
-        controller.moradorService = Mock(MoradorService) {
-            1 * save(_ as Morador) >> { Morador morador ->
-                throw new ValidationException("Invalid instance", morador.errors)
+        controller.operadorService = Mock(OperadorService) {
+            1 * save(_ as Operador) >> { Operador operador ->
+                throw new ValidationException("Invalid instance", operador.errors)
             }
         }
 
         when:"The save action is executed with an invalid instance"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'PUT'
-        controller.update(new Morador())
+        controller.update(new Operador())
 
         then:"The edit view is rendered again with the correct model"
-        model.morador != null
+        model.operador != null
         view == 'edit'
     }
 
@@ -199,13 +199,13 @@ class MoradorControllerSpec extends Specification implements ControllerUnitTest<
         controller.delete(null)
 
         then:"A 404 is returned"
-        response.redirectedUrl == '/morador/index'
+        response.redirectedUrl == '/operador/index'
         flash.message != null
     }
 
     void "Test the delete action with an instance"() {
         given:
-        controller.moradorService = Mock(MoradorService) {
+        controller.operadorService = Mock(OperadorService) {
             1 * delete(2)
         }
 
@@ -215,7 +215,7 @@ class MoradorControllerSpec extends Specification implements ControllerUnitTest<
         controller.delete(2)
 
         then:"The user is redirected to index"
-        response.redirectedUrl == '/morador/index'
+        response.redirectedUrl == '/operador/index'
         flash.message != null
     }
 }

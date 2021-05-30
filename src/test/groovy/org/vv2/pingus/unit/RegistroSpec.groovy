@@ -1,6 +1,8 @@
-package org.vv2.pingus
+package org.vv2.pingus.unit
 
 import grails.testing.gorm.DomainUnitTest
+import org.vv2.pingus.Operador
+import org.vv2.pingus.Registro
 import spock.lang.Specification
 
 class RegistroSpec extends Specification implements DomainUnitTest<Registro> {
