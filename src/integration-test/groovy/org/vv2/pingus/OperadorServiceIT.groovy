@@ -7,20 +7,18 @@ import org.hibernate.SessionFactory
 
 @Integration
 @Rollback
-class OperadorServiceSpec extends Specification {
+class OperadorServiceIT extends Specification {
 
     OperadorService operadorService
     SessionFactory sessionFactory
 
     private Long setupData() {
-        // TODO: Populate valid domain instances and return a valid ID
-        //new Operador(...).save(flush: true, failOnError: true)
-        //new Operador(...).save(flush: true, failOnError: true)
-        //Operador operador = new Operador(...).save(flush: true, failOnError: true)
-        //new Operador(...).save(flush: true, failOnError: true)
-        //new Operador(...).save(flush: true, failOnError: true)
-        assert false, "TODO: Provide a setupData() implementation for this generated test suite"
-        //operador.id
+        new Operador(nome: "Rebeca Adriana da Mota").save()
+        def operador = new Operador(nome: "Daiane Evelyn Rita da Costa").save()
+        new Operador(nome: "Benicio Danilo Arthur Barbosa").save()
+        new Operador(nome: "Jose Otavio da Mata").save()
+
+        operador.id
     }
 
     void "test get"() {
@@ -38,34 +36,32 @@ class OperadorServiceSpec extends Specification {
 
         then:
         operadorList.size() == 2
-        assert false, "TODO: Verify the correct instances are returned"
     }
 
     void "test count"() {
         setupData()
 
         expect:
-        operadorService.count() == 5
+        operadorService.count() == 4
     }
 
     void "test delete"() {
         Long operadorId = setupData()
 
         expect:
-        operadorService.count() == 5
+        operadorService.count() == 4
 
         when:
         operadorService.delete(operadorId)
         sessionFactory.currentSession.flush()
 
         then:
-        operadorService.count() == 4
+        operadorService.count() == 3
     }
 
     void "test save"() {
         when:
-        assert false, "TODO: Provide a valid instance to save"
-        Operador operador = new Operador()
+        Operador operador = new Operador(nome: "Jair dos Santos")
         operadorService.save(operador)
 
         then:

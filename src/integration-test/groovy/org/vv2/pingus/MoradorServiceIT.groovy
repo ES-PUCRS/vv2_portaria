@@ -7,20 +7,18 @@ import org.hibernate.SessionFactory
 
 @Integration
 @Rollback
-class MoradorServiceSpec extends Specification {
+class MoradorServiceIT extends Specification {
 
     MoradorService moradorService
     SessionFactory sessionFactory
 
-    private Long setupData() {
-        // TODO: Populate valid domain instances and return a valid ID
-        //new Morador(...).save(flush: true, failOnError: true)
-        //new Morador(...).save(flush: true, failOnError: true)
-        //Morador morador = new Morador(...).save(flush: true, failOnError: true)
-        //new Morador(...).save(flush: true, failOnError: true)
-        //new Morador(...).save(flush: true, failOnError: true)
-        assert false, "TODO: Provide a setupData() implementation for this generated test suite"
-        //morador.id
+    private static Long setupData() {
+        new Morador(nome: "Jennifer Alicia Vieira",          rg: "41.092.275-4", apto: 302, inativo: false).save()
+        new Morador(nome: "Mateus Pietro Caue da Mota",      rg: "27.244.251-3", apto: 303, inativo: false).save()
+        def morador = new Morador(nome: "Arthur Renan Pietro Melo",        rg: "34.971.550-6", apto: 304, inativo: false).save()
+        new Morador(nome: "Aparecida Pietra Fogaca",         rg: "34.971.550-6", apto: 401, inativo: false).save()
+        new Morador(nome: "Davi Benicio Jesus",              rg: "36.291.849-1", apto: 402, inativo: false).save()
+        morador.id
     }
 
     void "test get"() {
@@ -38,7 +36,6 @@ class MoradorServiceSpec extends Specification {
 
         then:
         moradorList.size() == 2
-        assert false, "TODO: Verify the correct instances are returned"
     }
 
     void "test count"() {
@@ -64,8 +61,8 @@ class MoradorServiceSpec extends Specification {
 
     void "test save"() {
         when:
-        assert false, "TODO: Provide a valid instance to save"
-        Morador morador = new Morador()
+        Morador morador =
+            new Morador(nome: "Pedro Murilo Santos",             rg: "20.173.376-6", apto: 202, inativo: false).save()
         moradorService.save(morador)
 
         then:

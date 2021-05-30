@@ -7,20 +7,18 @@ import org.hibernate.SessionFactory
 
 @Integration
 @Rollback
-class RegistroServiceSpec extends Specification {
+class RegistroServiceIT extends Specification {
 
     RegistroService registroService
     SessionFactory sessionFactory
 
     private Long setupData() {
-        // TODO: Populate valid domain instances and return a valid ID
-        //new Registro(...).save(flush: true, failOnError: true)
-        //new Registro(...).save(flush: true, failOnError: true)
-        //Registro registro = new Registro(...).save(flush: true, failOnError: true)
-        //new Registro(...).save(flush: true, failOnError: true)
-        //new Registro(...).save(flush: true, failOnError: true)
-        assert false, "TODO: Provide a setupData() implementation for this generated test suite"
-        //registro.id
+        new Registro(operador: new Operador(nome: "Gabriel Rabelo Almeida"),jSessionId: "cookie1").save(flush: true, failOnError: true)
+        new Registro(operador: new Operador(nome: "Pedro Maia Rogoski"),jSessionId: "cookie2").save(flush: true, failOnError: true)
+        Registro registro = new Registro(operador: new Operador(nome: "Cleyson Braga de Oliveira"),jSessionId: "cookie3").save(flush: true, failOnError: true)
+        new Registro(operador: new Operador(nome: "Rafael dos Santos Cardoso"),jSessionId: "cookie4").save(flush: true, failOnError: true)
+        new Registro(operador: new Operador(nome: "Vinicius Bazanella"),jSessionId: "cookie5").save(flush: true, failOnError: true)
+        registro.id
     }
 
     void "test get"() {
@@ -38,7 +36,6 @@ class RegistroServiceSpec extends Specification {
 
         then:
         registroList.size() == 2
-        assert false, "TODO: Verify the correct instances are returned"
     }
 
     void "test count"() {
@@ -64,8 +61,12 @@ class RegistroServiceSpec extends Specification {
 
     void "test save"() {
         when:
-        assert false, "TODO: Provide a valid instance to save"
-        Registro registro = new Registro()
+        Registro registro =
+            new Registro(
+                operador: new Operador(nome: "Barco de Teseu"),
+                jSessionId: "cookie6"
+            )
+
         registroService.save(registro)
 
         then:

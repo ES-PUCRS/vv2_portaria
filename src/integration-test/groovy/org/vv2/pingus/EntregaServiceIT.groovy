@@ -4,13 +4,12 @@ import grails.testing.mixin.integration.Integration
 import grails.gorm.transactions.Rollback
 import groovy.time.TimeCategory
 import spock.lang.Specification
-import org.hibernate.SessionFactory
 
 import java.text.SimpleDateFormat
 
 @Integration
 @Rollback
-class EntregaServiceSpec extends Specification {
+class EntregaServiceIT extends Specification {
 
     static def sdf = new SimpleDateFormat("dd/MM/yy HH:mm")
     EntregaService entregaService
