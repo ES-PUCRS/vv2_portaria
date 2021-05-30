@@ -62,7 +62,7 @@ class MoradorServiceIT extends Specification {
     void "test save"() {
         when:
         Morador morador =
-            new Morador(nome: "Pedro Murilo Santos",             rg: "20.173.376-6", apto: 202, inativo: false).save()
+            new Morador(nome: "Pedro Murilo Santos", rg: "20.173.376-6", apto: 202, inativo: false)
         moradorService.save(morador)
 
         then:

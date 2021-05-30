@@ -60,7 +60,6 @@ class EntregaController {
 
         try {
             entrega.criado = entrega.dateCreated
-            entrega.lastUpdated = null;
             entregaService.save(entrega)
         } catch (ValidationException e) {
             respond entrega.errors, view:'create'
@@ -87,9 +86,11 @@ class EntregaController {
         }
 
         try {
-            entrega.retirado = entrega.lastUpdated
-            entregaService.save(entrega)
-        } catch (ValidationException e) {
+            entregaCustomService.save(entrega)
+        } catch (IllegalArgumentException ignored) {
+            unprocessableEntity()
+            return
+        } catch (ValidationException ignored) {
             respond entrega.errors, view:'edit'
             return
         }
@@ -123,6 +124,16 @@ class EntregaController {
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }
+        }
+    }
+
+    protected void unprocessableEntity() {
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.unprocessable.entity.message', args: [message(code: 'entrega.label', default: 'Entrega'), params.id])
+                redirect action: "index", method: "GET"
+            }
+            '*'{ render status: UNPROCESSABLE_ENTITY }
         }
     }
 }
