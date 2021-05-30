@@ -22,10 +22,10 @@ class OperadorServiceIT extends Specification {
     }
 
     void "test get"() {
-        setupData()
+        def operadorId = setupData()
 
         expect:
-        operadorService.get(1) != null
+        operadorService.get(operadorId) != null
     }
 
     void "test list"() {

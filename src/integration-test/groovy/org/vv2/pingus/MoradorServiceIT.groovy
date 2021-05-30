@@ -22,10 +22,10 @@ class MoradorServiceIT extends Specification {
     }
 
     void "test get"() {
-        setupData()
+        def moradorId = setupData()
 
         expect:
-        moradorService.get(1) != null
+        moradorService.get(moradorId) != null
     }
 
     void "test list"() {
