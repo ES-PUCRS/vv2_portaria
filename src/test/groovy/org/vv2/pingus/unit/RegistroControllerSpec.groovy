@@ -36,7 +36,7 @@ class RegistroControllerSpec extends Specification implements ControllerUnitTest
         controller.show()
 
         then:"The model is correct"
-        !model.registroList
-        model.registroCount == 0
+        !model.operadorList
+        model.operadorCount == 0
     }
 }
