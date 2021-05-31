@@ -10,12 +10,11 @@ class EntregaCustomService {
     EntregaService entregaService
 
     Entrega save(Entrega entrega) {
-        if (entrega?.retirado != null) {
+        if (entrega?.retirado != null)
             throw new IllegalArgumentException("The package has already been taken")
-        } else {
-            entrega.retirado = entrega.lastUpdated
-            entregaService.save(entrega);
-        }
+
+        entrega.retirado = entrega.lastUpdated
+        entregaService.save(entrega);
     }
 
 
