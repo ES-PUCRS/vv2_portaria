@@ -107,7 +107,10 @@ jacocoTestReport {
     }
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: 'init/org/vv2/pingus/**')
+            fileTree(dir: it, exclude: [
+                'org/vv2/pingus/Application.*',
+                'org/vv2/pingus/BootStrap.*'
+            ])
         }))
     }
 }
