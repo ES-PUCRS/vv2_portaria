@@ -107,7 +107,7 @@ jacocoTestReport {
     }
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['**/Application.groovy', '**/BootStrap.groovy'])
+            fileTree(dir: it, exclude: 'init/org/vv2/pingus/**')
         }))
     }
 }
