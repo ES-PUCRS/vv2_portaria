@@ -2,6 +2,7 @@ package org.vv2.pingus.unit
 
 import grails.testing.gorm.DomainUnitTest
 import grails.testing.web.controllers.ControllerUnitTest
+import org.vv2.pingus.OperadorService
 import org.vv2.pingus.Registro
 import org.vv2.pingus.RegistroController
 import org.vv2.pingus.RegistroService
@@ -24,4 +25,18 @@ class RegistroControllerSpec extends Specification implements ControllerUnitTest
         model.registroCount == 0
     }
 
+    void "Test the show action returns the correct model"() {
+        given:
+        controller.operadorService = Mock(OperadorService) {
+            1 * list(_) >> []
+            1 * count() >> 0
+        }
+
+        when:"The index action is executed"
+        controller.show()
+
+        then:"The model is correct"
+        !model.registroList
+        model.registroCount == 0
+    }
 }

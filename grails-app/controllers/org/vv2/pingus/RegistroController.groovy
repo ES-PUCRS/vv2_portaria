@@ -16,7 +16,7 @@ class RegistroController {
     }
 
     def show() {
-        respond operadorService.list(), model:[registroCount: registroService.count()]
+        respond operadorService.list(), model:[operadorCount: operadorService.count()]
     }
 
     def edit(Long id) {

@@ -4,7 +4,9 @@ import grails.testing.mixin.integration.Integration
 import grails.gorm.transactions.Rollback
 import groovy.time.TimeCategory
 import org.vv2.pingus.Entrega
+import org.vv2.pingus.EntregaCustomService
 import org.vv2.pingus.Morador
+import org.vv2.pingus.MoradorCustomService
 import org.vv2.pingus.Operador
 import spock.lang.Specification
 
@@ -14,8 +16,8 @@ import java.text.SimpleDateFormat
 @Integration
 class MoradorCustomServiceIT extends Specification {
 
-
     static def sdf = new SimpleDateFormat("dd/MM/yy HH:mm")
+    MoradorCustomService moradorCustomService
 
     private long setupData() {
         new Entrega(
@@ -43,7 +45,7 @@ class MoradorCustomServiceIT extends Specification {
                 apto: 101,
                 operador: new Operador(nome: "Jose Otavio da Mata"),
                 retirado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.day })),
-                morador: new Morador(nome: "Levi Kate Jesus", apto: 1, rg: "24.222.979-2", inativo: false)
+                morador: new Morador(nome: "Levi Kate Jesus", apto: 1, rg: "24.222.979-2", inativo: true)
         ).save(flush: true, failOnError: true)
         new Entrega(
                 criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.month })),
@@ -51,9 +53,19 @@ class MoradorCustomServiceIT extends Specification {
                 apto: 101,
                 operador: new Operador(nome: "Jose Otavio da Mata"),
                 retirado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.day })),
-                morador: new Morador(nome: "Levi Kate Jesus", apto: 2, rg: "24.222.979-3", inativo: false)
+                morador: new Morador(nome: "Levi Levando Jesus", apto: 2, rg: "24.222.979-3", inativo: false)
         ).save(flush: true, failOnError: true)
         entrega?.id
     }
 
+    void "Test find all active moradores" () {
+        setupData()
+        when:"There is a list of moradores"
+        def moradores = moradorCustomService.findAllActive()
+
+        then:"Should not exist morador inativo on this list"
+        moradores.each {
+            assert !it.inativo
+        }
+    }
 }
