@@ -3,6 +3,7 @@ package org.vv2.pingus
 import grails.gorm.transactions.Transactional
 
 import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
 
 @Transactional
 class EntregaCustomService {
@@ -25,23 +26,24 @@ class EntregaCustomService {
         }
     }
 
-    static Calendar findDeliveryAverageTime() {
+    static Long findDeliveryAverageTime() {
         def list = Entrega.all.findAll{
             it?.criado && it?.retirado
         }
 
+        if(!list) return null
+
         Long difference = 0L
         for(entrega in list){
             difference +=
+                TimeUnit.DAYS.convert(
                     entrega?.retirado?.getTime()
-            -   entrega?.criado?.getTime()
+                -   entrega?.criado?.getTime(),
+                    TimeUnit.MILLISECONDS
+                )
         }
 
-        def dateDiff = new Date()
-        dateDiff.setTime((difference / list.size()) as Long)
-        def calendar = Calendar.getInstance()
-        calendar.setTime(dateDiff)
-        return calendar
+        return difference / 2;
     }
 
     static int findAllNotDelivered() {

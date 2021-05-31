@@ -83,7 +83,12 @@
                         <g:textField disabled="true" name="fieldUndelivered" class="dashboard-field" value="${EntregaCustomService.findAllNotDelivered()}"/>
                     <p style="margin-left: 20px">Tempo médio entre registro e retirada:</p>
                     <g:set class="dashboard-average-field" var="dateAverage" value="${EntregaCustomService.findDeliveryAverageTime()}" />
-                        <g:textField disabled="true" name="fieldAverage" class="dashboard-average-field" value="${dateAverage.get(Calendar.DAY_OF_YEAR)}D ${dateAverage.get(Calendar.HOUR_OF_DAY)}h ${dateAverage.get(Calendar.MINUTE)}m"/>
+                    <g:if test="${dateAverage == null}">
+                        <g:textField disabled="true" name="fieldAverage" class="dashboard-average-field" value="-"/>
+                    </g:if>
+                    <g:else>
+                        <g:textField disabled="true" name="fieldAverage" class="dashboard-average-field" value="${dateAverage} Dias"/>
+                    </g:else>
                 </div>
             </div>
         </div>

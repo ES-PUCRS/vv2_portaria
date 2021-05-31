@@ -141,6 +141,8 @@ class EntregaCustomServiceIT extends Specification {
         assert filtered.size() == 0
     }
 
+    /**/
+
     void "Test find all not delivered"() {
         setupData()
         when:"Setup list"
@@ -148,11 +150,18 @@ class EntregaCustomServiceIT extends Specification {
         assert entregaCustomService.findAllNotDelivered() == 3
     }
 
-//    void "Test the average of the delivery time"() {
-//        when:"Setup list"
-//        then:"Should find 3"
-//        assert entregaCustomService.findDeliveryAverageTime()
-//    }
+    void "Test the average of the delivery time"() {
+        setupData()
+        when:"Setup list"
+        then:"Should find 3"
+        assert entregaCustomService.findDeliveryAverageTime() == 18
+    }
+
+    void "Test the average when there is no delivery"() {
+        when:"Setup list"
+        then:"Should find 3"
+        assert entregaCustomService.findDeliveryAverageTime() == null
+    }
 
     void "Test find on last 30 days"() {
         setupData()
@@ -160,6 +169,8 @@ class EntregaCustomServiceIT extends Specification {
         then:"Should find 4"
         assert entregaCustomService.findAllByDateCreatedGreaterThan(use (TimeCategory) { new Date() - 1.month }).size() == 4
     }
+
+    /* ---------------------------------- */
 
     void "Test delivery that has not been taken"() {
         setupData()
