@@ -1,13 +1,10 @@
 package org.vv2.pingus
 
-import grails.util.Environment
-
-import javax.annotation.processing.Generated
 import java.text.SimpleDateFormat
+import grails.util.Environment
 
 class BootStrap {
 
-    @Generated
     def init = { servletContext ->
         def env = Environment.current.name
         if (env == "development" || env == "dev") {
