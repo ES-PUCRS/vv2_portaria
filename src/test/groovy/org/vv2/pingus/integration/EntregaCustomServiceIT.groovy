@@ -1,7 +1,12 @@
-package org.vv2.pingus
+package org.vv2.pingus.integration
 
 import grails.testing.mixin.integration.Integration
 import grails.gorm.transactions.Rollback
+import org.vv2.pingus.Entrega
+import org.vv2.pingus.EntregaCustomService
+import org.vv2.pingus.EntregaService
+import org.vv2.pingus.Morador
+import org.vv2.pingus.Operador
 import spock.lang.Specification
 import java.text.SimpleDateFormat
 import groovy.time.TimeCategory

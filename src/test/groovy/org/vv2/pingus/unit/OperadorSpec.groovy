@@ -1,6 +1,7 @@
-package org.vv2.pingus
+package org.vv2.pingus.unit
 
 import grails.testing.gorm.DomainUnitTest
+import org.vv2.pingus.Operador
 import spock.lang.Specification
 
 class OperadorSpec extends Specification implements DomainUnitTest<Operador> {

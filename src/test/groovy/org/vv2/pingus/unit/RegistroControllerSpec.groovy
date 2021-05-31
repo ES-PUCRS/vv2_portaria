@@ -1,7 +1,10 @@
-package org.vv2.pingus
+package org.vv2.pingus.unit
 
 import grails.testing.gorm.DomainUnitTest
 import grails.testing.web.controllers.ControllerUnitTest
+import org.vv2.pingus.Registro
+import org.vv2.pingus.RegistroController
+import org.vv2.pingus.RegistroService
 import spock.lang.*
 
 class RegistroControllerSpec extends Specification implements ControllerUnitTest<RegistroController>, DomainUnitTest<Registro> {

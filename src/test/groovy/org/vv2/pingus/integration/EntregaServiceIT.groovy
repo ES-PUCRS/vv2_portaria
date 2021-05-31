@@ -1,20 +1,24 @@
-package org.vv2.pingus
+package org.vv2.pingus.integration
 
 import grails.testing.mixin.integration.Integration
 import grails.gorm.transactions.Rollback
 import groovy.time.TimeCategory
+import org.vv2.pingus.Entrega
+import org.vv2.pingus.EntregaService
+import org.vv2.pingus.Morador
+import org.vv2.pingus.Operador
 import spock.lang.Specification
 
 import java.text.SimpleDateFormat
 
-@Rollback
 @Integration
-class MoradorCustomServiceIT extends Specification {
-
+@Rollback
+class EntregaServiceIT extends Specification {
 
     static def sdf = new SimpleDateFormat("dd/MM/yy HH:mm")
+    EntregaService entregaService
 
-    private long setupData() {
+    private Long setupData() {
         new Entrega(
                 criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.day })),
                 descricao: "sedex cx 27x25x70cm",
@@ -25,16 +29,16 @@ class MoradorCustomServiceIT extends Specification {
                 criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 22.minute })),
                 descricao: "sedex envelope",
                 apto: 101,
-                operador: new Operador(nome: "Jose da Mata")
+                operador: new Operador(nome: "Jose Otavio da Mata")
         ).save(flush: true, failOnError: true)
-        new Entrega(
+        def entrega = new Entrega(
                 criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.hour })),
                 descricao: "sedex cx",
                 apto: 101,
                 operador: new Operador(nome: "Jose Otavio da Mata")
         ).save(flush: true, failOnError: true)
 
-        def entrega = new Entrega(
+        new Entrega(
                 criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.week })),
                 descricao: "correios carta pequena",
                 apto: 101,
@@ -50,7 +54,46 @@ class MoradorCustomServiceIT extends Specification {
                 retirado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.day })),
                 morador: new Morador(nome: "Levi Kate Jesus", apto: 2, rg: "24.222.979-3", inativo: false)
         ).save(flush: true, failOnError: true)
+
         entrega?.id
+    }
+
+    void "test get"() {
+        def entregaId = setupData()
+
+        expect:
+        entregaService.get(entregaId) != null
+    }
+
+    void "test list"() {
+        setupData()
+
+        when:
+        List<Entrega> entregaList = entregaService.list(max: 2, offset: 2)
+
+        then:
+        assert entregaList.size() == 2
+    }
+
+    void "test count"() {
+        setupData()
+
+        expect:
+        entregaService.count() == 5
+    }
+
+    void "test save"() {
+        when:
+        Entrega entrega = new Entrega(
+                criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 4.month })),
+                descricao: "correios cx media",
+                apto: 107,
+                operador: new Operador(nome: "Jose da Mata"),
+        )
+        entregaService.save(entrega)
+
+        then:
+        entrega.id != null
     }
 
 }

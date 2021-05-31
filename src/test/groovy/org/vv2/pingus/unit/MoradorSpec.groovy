@@ -1,6 +1,7 @@
-package org.vv2.pingus
+package org.vv2.pingus.unit
 
 import grails.testing.gorm.DomainUnitTest
+import org.vv2.pingus.Morador
 import spock.lang.Specification
 
 class MoradorSpec extends Specification implements DomainUnitTest<Morador> {

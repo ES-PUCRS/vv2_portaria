@@ -1,7 +1,9 @@
-package org.vv2.pingus
+package org.vv2.pingus.integration
 
 import grails.testing.mixin.integration.Integration
 import grails.gorm.transactions.Rollback
+import org.vv2.pingus.Morador
+import org.vv2.pingus.MoradorService
 import spock.lang.Specification
 import org.hibernate.SessionFactory
 

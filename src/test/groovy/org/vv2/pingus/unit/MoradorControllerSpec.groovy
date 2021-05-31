@@ -1,16 +1,14 @@
-package org.vv2.pingus
+package org.vv2.pingus.unit
 
+import grails.testing.gorm.DomainUnitTest
 import grails.testing.web.controllers.ControllerUnitTest
 import grails.validation.ValidationException
-import grails.testing.gorm.DomainUnitTest
-import groovy.time.TimeCategory
+import org.vv2.pingus.Morador
+import org.vv2.pingus.MoradorController
+import org.vv2.pingus.MoradorService
 import spock.lang.*
 
-import java.text.SimpleDateFormat
-
-class EntregaControllerSpec extends Specification implements ControllerUnitTest<EntregaController>, DomainUnitTest<Entrega> {
-
-    static def sdf = new SimpleDateFormat("dd/MM/yy HH:mm")
+class MoradorControllerSpec extends Specification implements ControllerUnitTest<MoradorController>, DomainUnitTest<Morador> {
 
     def populateValidParams(params) {
         params["descricao"] = "TestSpec"
@@ -22,7 +20,7 @@ class EntregaControllerSpec extends Specification implements ControllerUnitTest<
 
     void "Test the index action returns the correct model"() {
         given:
-        controller.entregaService = Mock(EntregaService) {
+        controller.moradorService = Mock(MoradorService) {
             1 * list(_) >> []
             1 * count() >> 0
         }
@@ -31,8 +29,8 @@ class EntregaControllerSpec extends Specification implements ControllerUnitTest<
         controller.index()
 
         then:"The model is correct"
-        !model.entregaList
-        model.entregaCount == 0
+        !model.moradorList
+        model.moradorCount == 0
     }
 
     void "Test the create action returns the correct model"() {
@@ -40,7 +38,7 @@ class EntregaControllerSpec extends Specification implements ControllerUnitTest<
         controller.create()
 
         then:"The model is correctly created"
-        model.entrega != null
+        model.morador!= null
     }
 
     void "Test the save action with a null instance"() {
@@ -50,14 +48,14 @@ class EntregaControllerSpec extends Specification implements ControllerUnitTest<
         controller.save(null)
 
         then:"A 404 error is returned"
-        response.redirectedUrl == '/entrega/index'
+        response.redirectedUrl == '/morador/index'
         flash.message != null
     }
 
     void "Test the save action correctly persists"() {
         given:
-        controller.entregaService = Mock(EntregaService) {
-            1 * save(_ as Entrega)
+        controller.moradorService = Mock(MoradorService) {
+            1 * save(_ as Morador)
         }
 
         when:"The save action is executed with a valid instance"
@@ -65,38 +63,38 @@ class EntregaControllerSpec extends Specification implements ControllerUnitTest<
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'POST'
         populateValidParams(params)
-        def entrega = new Entrega(params)
-        entrega.id = 1
+        def morador = new Morador(params)
+        morador.id = 1
 
-        controller.save(entrega)
+        controller.save(morador)
 
         then:"A redirect is issued to the show action"
-        response.redirectedUrl == '/entrega/show/1'
+        response.redirectedUrl == '/morador/show/1'
         controller.flash.message != null
     }
 
     void "Test the save action with an invalid instance"() {
         given:
-        controller.entregaService = Mock(EntregaService) {
-            1 * save(_ as Entrega) >> { Entrega entrega ->
-                throw new ValidationException("Invalid instance", entrega.errors)
+        controller.moradorService = Mock(MoradorService) {
+            1 * save(_ as Morador) >> { Morador morador ->
+                throw new ValidationException("Invalid instance", morador.errors)
             }
         }
 
         when:"The save action is executed with an invalid instance"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'POST'
-        def entrega = new Entrega()
-        controller.save(entrega)
+        def morador = new Morador()
+        controller.save(morador)
 
         then:"The create view is rendered again with the correct model"
-        model.entrega != null
+        model.morador != null
         view == 'create'
     }
 
     void "Test the show action with a null id"() {
         given:
-        controller.entregaService = Mock(EntregaService) {
+        controller.moradorService = Mock(MoradorService) {
             1 * get(null) >> null
         }
 
@@ -109,20 +107,20 @@ class EntregaControllerSpec extends Specification implements ControllerUnitTest<
 
     void "Test the show action with a valid id"() {
         given:
-        controller.entregaService = Mock(EntregaService) {
-            1 * get(2) >> new Entrega()
+        controller.moradorService = Mock(MoradorService) {
+            1 * get(2) >> new Morador()
         }
 
         when:"A domain instance is passed to the show action"
         controller.show(2)
 
         then:"A model is populated containing the domain instance"
-        model.entrega instanceof Entrega
+        model.morador instanceof Morador
     }
 
     void "Test the edit action with a null id"() {
         given:
-        controller.entregaService = Mock(EntregaService) {
+        controller.moradorService = Mock(MoradorService) {
             1 * get(null) >> null
         }
 
@@ -135,15 +133,15 @@ class EntregaControllerSpec extends Specification implements ControllerUnitTest<
 
     void "Test the edit action with a valid id"() {
         given:
-        controller.entregaService = Mock(EntregaService) {
-            1 * get(2) >> new Entrega()
+        controller.moradorService = Mock(MoradorService) {
+            1 * get(2) >> new Morador()
         }
 
         when:"A domain instance is passed to the show action"
         controller.edit(2)
 
         then:"A model is populated containing the domain instance"
-        model.entrega instanceof Entrega
+        model.morador instanceof Morador
     }
 
 
@@ -154,14 +152,14 @@ class EntregaControllerSpec extends Specification implements ControllerUnitTest<
         controller.update(null)
 
         then:"A 404 error is returned"
-        response.redirectedUrl == '/entrega/index'
+        response.redirectedUrl == '/morador/index'
         flash.message != null
     }
 
     void "Test the update action correctly persists"() {
         given:
-        controller.entregaCustomService = Mock(EntregaCustomService) {
-            1 * save(_ as Entrega)
+        controller.moradorService = Mock(MoradorService) {
+            1 * save(_ as Morador)
         }
 
         when:"The save action is executed with a valid instance"
@@ -169,40 +167,60 @@ class EntregaControllerSpec extends Specification implements ControllerUnitTest<
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'PUT'
         populateValidParams(params)
-        def entrega = new Entrega(
-            criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.day })),
-            descricao: "sedex cx 27x25x70cm",
-            apto: 103,
-            operador: new Operador(nome: "Jose Otavio da Mata"),
-            morador: new Morador(nome: "Tavares Rodrigo", rg: '000000000', apto: 900 ,inativo: false)
-        )
-        entrega.id = 1
+        def morador = new Morador(params)
+        morador.id = 1
 
-        controller.update(entrega)
+        controller.update(morador)
 
         then:"A redirect is issued to the show action"
-        response.redirectedUrl == '/entrega/show/1'
+        response.redirectedUrl == '/morador/show/1'
         controller.flash.message != null
     }
 
     void "Test the update action with an invalid instance"() {
         given:
-        controller.entregaCustomService = Mock(EntregaCustomService) {
-            1 * save(_ as Entrega) >> { Entrega entrega ->
-                throw new ValidationException("Invalid instance", entrega.errors)
+        controller.moradorService = Mock(MoradorService) {
+            1 * save(_ as Morador) >> { Morador morador ->
+                throw new ValidationException("Invalid instance", morador.errors)
             }
         }
 
         when:"The save action is executed with an invalid instance"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'PUT'
-        controller.update(new Entrega())
+        controller.update(new Morador())
 
         then:"The edit view is rendered again with the correct model"
-        model.entrega != null
+        model.morador != null
         view == 'edit'
     }
 
+    void "Test the delete action with a null instance"() {
+        when:"The delete action is called for a null instance"
+        request.contentType = FORM_CONTENT_TYPE
+        request.method = 'DELETE'
+        controller.delete(null)
+
+        then:"A 404 is returned"
+        response.redirectedUrl == '/morador/index'
+        flash.message != null
+    }
+
+    void "Test the delete action with an instance"() {
+        given:
+        controller.moradorService = Mock(MoradorService) {
+            1 * delete(2)
+        }
+
+        when:"The domain instance is passed to the delete action"
+        request.contentType = FORM_CONTENT_TYPE
+        request.method = 'DELETE'
+        controller.delete(2)
+
+        then:"The user is redirected to index"
+        response.redirectedUrl == '/morador/index'
+        flash.message != null
+    }
 }
 
 
