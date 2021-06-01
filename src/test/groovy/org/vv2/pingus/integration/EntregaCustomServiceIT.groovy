@@ -104,7 +104,8 @@ class EntregaCustomServiceIT extends Specification {
         list.size() == 0
     }
 
-    void "Test entregaCustomService searchByRETIRADA 0"() {
+
+    void "Test entregaCustomService searchByRETIRADA 1"() {
         setupData()
         def entrega = Entrega.all.findAll {
             it.retirado != null
@@ -124,7 +125,7 @@ class EntregaCustomServiceIT extends Specification {
         assert list.get(0).retirado == date
     }
 
-    void "Test entregaCustomService searchByRETIRADA null"() {
+    void "Test entregaCustomService no Delivered entrega"() {
         setupData()
         def params = [
                 'searchfield'   : "RETIRADA",
@@ -141,7 +142,7 @@ class EntregaCustomServiceIT extends Specification {
         assert filtered.size() == 0
     }
 
-    /**/
+    /* -------------------------------------------------------------- */
 
     void "Test find all not delivered"() {
         setupData()
@@ -170,7 +171,7 @@ class EntregaCustomServiceIT extends Specification {
         assert entregaCustomService.findAllByDateCreatedGreaterThan(use (TimeCategory) { new Date() - 1.month }).size() == 4
     }
 
-    /* ---------------------------------- */
+    /* -------------------------------------------------------------- */
 
     void "Test delivery that has not been taken"() {
         setupData()

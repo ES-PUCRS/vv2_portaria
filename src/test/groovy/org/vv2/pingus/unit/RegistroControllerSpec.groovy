@@ -39,4 +39,5 @@ class RegistroControllerSpec extends Specification implements ControllerUnitTest
         !model.operadorList
         model.operadorCount == 0
     }
+
 }
