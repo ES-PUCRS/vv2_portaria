@@ -4,6 +4,7 @@ import grails.testing.mixin.integration.Integration
 import grails.gorm.transactions.Rollback
 import groovy.time.TimeCategory
 import org.vv2.pingus.Entrega
+import org.vv2.pingus.Morador
 import org.vv2.pingus.Operador
 import org.vv2.pingus.OperadorService
 import spock.lang.Specification
@@ -75,7 +76,13 @@ class OperadorServiceIT extends Specification {
 
     void "test delete when there is a delivery relation"() {
         given:"The setup is mounted"
-        Long operadorId = Entrega?.findById(1)?.operador?.id
+        Long operadorId = setupData()
+        new Entrega(
+                criado: sdf.parse(sdf.format(use (TimeCategory) { new Date() - 1.month })),
+                descricao: "correios cx media",
+                apto: 101,
+                operador: Operador.findById(operadorId)
+        ).save(flush: true, failOnError: true)
 
         expect: "Find 4 operadores"
         operadorService.count() == 4
@@ -87,8 +94,7 @@ class OperadorServiceIT extends Specification {
         then:"Should not delete and throw an error"
         assert operadorService.count() == 4
         Exception e = thrown()
-        assert 'deleted object would be re-saved by cascade (remove deleted object from associations): [org.vv2.pingus.Operador#1]' == e.message
-
+        assert e.message.startsWith('deleted object would be re-saved by cascade (remove deleted object from associations): [org.vv2.pingus.Operador#')
     }
 
     void "test save"() {
