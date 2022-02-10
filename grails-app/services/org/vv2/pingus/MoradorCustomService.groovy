@@ -9,4 +9,7 @@ class MoradorCustomService {
         Morador.findAllWhere(inativo: false)
     }
 
+    def findAllReceived(Morador morador) {
+        Entrega.findAllByMorador(morador)
+    }
 }

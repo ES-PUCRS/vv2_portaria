@@ -1,3 +1,4 @@
+<%@ page import="org.vv2.pingus.MoradorCustomService" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,6 +27,7 @@
                     <input class="delete" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
                 </fieldset>
             </g:form>
+            <g:textField disabled="true" name="fieldUndelivered" class="dashboard-field" value="${MoradorCustomService.findAllReceived(this.morador)}"/>
         </div>
     </body>
 </html>
