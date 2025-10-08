@@ -8,10 +8,15 @@ class Morador {
     boolean inativo
 
     static constraints = {
-        nome    nullable: false, matches: /[A-Za-z _]*[A-Za-z][A-Za-z _]*/
-        rg      nullable: false, matches: /\d{2}.\d{3}.\d{3}-\d{1}|\d{9}/
-        apto    nullable: false, min: 0
-        inativo()
+        // Nome: Must be non-null, only letters (with accents), and single spaces between names
+        nome nullable: false, matches: /^[A-Za-zÀ-ÿ]+(?: [A-Za-zÀ-ÿ]+)*$/
+
+        // RG: Allows both formatted (12.345.678-9 or 12.345.678-X) and unformatted (123456789 or 12345678X)
+        rg nullable: false, matches: /^\d{2}\.\d{3}\.\d{3}-[\dXx]$|^\d{8}[\dXx]$/
+
+        apto nullable: false, min: 0
+
+        inativo() // no constraints; just leaving it here for completeness
     }
 
     static mapping = {
@@ -19,7 +24,7 @@ class Morador {
     }
 
     @Override
-    String toString(){
+    String toString() {
         nome
     }
 }
