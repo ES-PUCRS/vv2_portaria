@@ -12,63 +12,69 @@ class EntregaController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    private def registroAtivo() {
+        if (request?.session?.isNew()) return null
+        registroCustomService?.searchByCookieActive(request)
+    }
+
     def filter(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        if ((! params.searchfor || params.searchfor.isEmpty() )  &&
-            ( "RETIRADA" != (params.searchfield as String)       &&
-              "MORADOR"  != (params.searchfield as String)       )) {
-            redirect(action: "index")
-        } else {
-            def list = entregaCustomService.searchBy(params.searchfield as String, params.searchfor)
-            render(view: "/entrega/index", model: [entregaList: list, entregaCount: list?.size()?:0, searchfield: params.searchfield])
+
+        String field = (params.searchfield as String)?.trim()
+        String search = (params.searchfor as String)?.trim()
+        final Set<String> permitidos = ["RETIRADA", "MORADOR"] as Set
+
+        if (!search || !field || !permitidos.contains(field?.toUpperCase())) {
+            redirect(action: "index"); return
         }
+
+        def list = entregaCustomService.searchBy(field, search)
+        render(view: "/entrega/index",
+               model: [entregaList: list, entregaCount: (list?.size() ?: 0), searchfield: field])
     }
 
     def index(Integer max) {
-        if(request.session?.isNew() || !registroCustomService.searchByCookieActive(request))
-            redirect(controller:"registro", action: "show")
-
+        if (!registroAtivo()) { redirect(controller: "registro", action: "show"); return }
         params.max = Math.min(max ?: 10, 100)
-        respond entregaService.list(params), model:[entregaCount: entregaService.count()]
+        respond entregaService.list(params), model: [entregaCount: entregaService.count()]
     }
 
     def show(Long id) {
-        respond entregaService.get(id)
+        def entrega = entregaService.get(id)
+        if (!entrega) { notFound(); return }
+        respond entrega
     }
 
     def create() {
+        def registro = registroAtivo()
+        if (!registro) { redirect(controller: "registro", action: "show"); return }
+
         def entrega = new Entrega(params)
-        def registro = registroCustomService?.searchByCookieActive(request)
-
-        if (!registro || request.session?.isNew())
-            redirect controller:"registro", action: "show"
-
         entrega.operador = registro?.operador
         respond entrega
     }
 
     def save(Entrega entrega) {
-        if (entrega == null) {
-            notFound()
-            return
-        }
+        if (!entrega) { notFound(); return }
 
-        if(!entrega.operador) {
-            def registro = registroCustomService?.searchByCookieActive(request)
+        if (!entrega.operador) {
+            def registro = registroAtivo()
+            if (!registro) { redirect(controller: "registro", action: "show"); return }
             entrega.operador = registro?.operador
         }
 
         try {
-            entrega.criado = entrega.dateCreated
+
+            if (!entrega.criado) entrega.criado = new Date()
             entregaService.save(entrega)
         } catch (ValidationException e) {
-            respond entrega.errors, view:'create'
-            return
+            respond entrega.errors, view: 'create'; return
         }
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'entrega.label', default: 'Entrega'), entrega.id])
+                flash.message = message(code: 'default.created.message',
+                    args: [message(code: 'entrega.label', default: 'Entrega'), entrega.id])
                 redirect entrega
             }
             '*' { respond entrega, [status: CREATED] }
@@ -76,64 +82,70 @@ class EntregaController {
     }
 
     def edit(Long id) {
-        respond entregaService.get(id)
+        def entrega = entregaService.get(id)
+        if (!entrega) { notFound(); return }
+        respond entrega
     }
 
     def update(Entrega entrega) {
-        if (entrega == null) {
-            notFound()
-            return
-        }
+        if (!entrega) { notFound(); return }
 
         try {
-            entregaCustomService.save(entrega)
+
+            entregaService.save(entrega)
         } catch (IllegalArgumentException ignored) {
-            unprocessableEntity()
-            return
+            unprocessableEntity(); return
         } catch (ValidationException ignored) {
-            respond entrega.errors, view:'edit'
-            return
+            respond entrega.errors, view: 'edit'; return
         }
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'entrega.label', default: 'Entrega'), entrega.id])
+                flash.message = message(code: 'default.updated.message',
+                    args: [message(code: 'entrega.label', default: 'Entrega'), entrega.id])
                 redirect entrega
             }
-            '*'{ respond entrega, [status: OK] }
+            '*' { respond entrega, [status: OK] }
         }
     }
 
     def logout() {
-        def registro = registroCustomService.searchByCookieActive(request)
+        def registro = registroCustomService?.searchByCookieActive(request)
 
         try {
-            registro.jSessionId = "${registro.jSessionId}{LOGOUT}"
-            registroService.save(registro)
+            request.session?.invalidate()
+            if (registro) {
+                registro.jSessionId = "${registro.jSessionId}{LOGOUT}"
+                registroService.save(registro)
+            }
         } catch (ValidationException e) {
-            respond registro.errors, view:'index'
-            return
+            if (registro?.errors) {
+                respond registro.errors, view: 'index'
+                return
+            }
         }
-        redirect controller: "registro", action: "show"
+        redirect(controller: "registro", action: "show")
     }
 
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'entrega.label', default: 'Entrega'), params.id])
+                flash.message = message(code: 'default.not.found.message',
+                    args: [message(code: 'entrega.label', default: 'Entrega'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*'{ render status: NOT_FOUND }
+            '*' { render status: NOT_FOUND }
         }
     }
 
     protected void unprocessableEntity() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.unprocessable.entity.message', args: [message(code: 'entrega.label', default: 'Entrega'), params.id])
+                flash.message = message(code: 'default.unprocessable.entity.message',
+                    args: [message(code: 'entrega.label', default: 'Entrega'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*'{ render status: UNPROCESSABLE_ENTITY }
+            '*' { render status: UNPROCESSABLE_ENTITY }
         }
     }
 }
